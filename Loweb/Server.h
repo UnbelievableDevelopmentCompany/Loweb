@@ -9,12 +9,19 @@ class Server : public QObject
 public:
 	Server(QObject* parent = nullptr);
 
+	void SetHostAddress(const QHostAddress& hostAddress);
+	void SetPortServer(const int& port);
+
+	void StartServer();
+
 private slots:
 	void SlotNewConnection();
-
 	void SlotReadClient();
 private:
 	QTcpServer* server;
-	quint16 nextBlockSize;
+
+	QHostAddress _hostAddress;
+	int _port;
+
 };
 

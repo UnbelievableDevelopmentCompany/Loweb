@@ -1,16 +1,12 @@
 #include "Server.h"
 
-Server::Server(QObject* parent = nullptr) : QObject(parent), nextBlockSize(0)
+Server::Server(QObject* parent) : QObject(parent)
 {
 	server = new QTcpServer(this);
-	if (!server->listen(QHostAddress("192.168.0.208"), 3000))
-	{
-		qout << "Error start server!\n";
-		server->close();
-		QCoreApplication::quit();
-	}
 	QObject::connect(server, SIGNAL(newConnection()), this, SLOT(SlotNewConnection()));
 }
+
+
 
 void Server::SlotNewConnection() {
 	QTcpSocket* socket = server->nextPendingConnection();
@@ -18,17 +14,51 @@ void Server::SlotNewConnection() {
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
 }
 
+
+
+void Server::SetHostAddress(const QHostAddress& hostAddress)
+{
+	_hostAddress = hostAddress;
+}
+
+
+
+void Server::SetPortServer(const int& port)
+{
+	_port = port;
+}
+
+
+
+void Server::StartServer()
+{
+	if (!server->listen(QHostAddress("192.168.0.208"), 3000))
+	{
+		qout << "Error start server!\n";
+		server->close();
+		QCoreApplication::quit();
+	}
+}
+
+
+
 void Server::SlotReadClient()
 {
-	QTcpSocket* socket = (QTcpSocket*)sender();
+	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
+
+	QString request = socket->readAll();
+	qout << request;
 
 	QTextStream os(socket);
 	os.setCodec("UTF8");
-	QString response = u8"HTTP/1.0 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n<h1> у мир!</h1>\n";
+	QString response = u8"HTTP/1.0 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
 
-	os << response << QDateTime::currentDateTime().toString();
+	QFile htmlFile("D:\\Projects\\C++\\Loweb\\Loweb\\index.html");
+	htmlFile.open(QIODevice::ReadOnly);
+	response += htmlFile.readAll();
 
-	qout << socket->readAll() << "\n";
-
+	os << response;
+	
+	htmlFile.close();
 	socket->close();
 }
