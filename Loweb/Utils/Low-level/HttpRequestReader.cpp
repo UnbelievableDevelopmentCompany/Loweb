@@ -24,12 +24,8 @@ QString HttpRequestReader::GetVariable(const QString& varname)
 
 void HttpRequestReader::Proccess()
 {
-	QStringList lines = _httpRequest.split("\n");
+	QStringList lines = _httpRequest.split("\r\n");
 	lines.removeAll("");
-	lines.removeAll(" ");
-	lines.removeAll("\n");
-	lines.removeAll("\t");
-	lines.removeAll("\r");
 	QStringList firstLine = lines[0].split(" ");
 	lines.pop_front();
 	_method = firstLine[0];
