@@ -1,4 +1,4 @@
-#include "Server.h"
+﻿#include "Server.h"
 
 Server::Server(QObject* parent) : QObject(parent)
 {
@@ -20,7 +20,14 @@ Server::~Server()
 {
 	for (auto& item : _views)
 	{
-		delete item;
+		if(item != nullptr)
+			delete item;
+	}
+
+	for (auto& item : _apps)
+	{
+		if (item != nullptr)
+			delete item;
 	}
 }
 
@@ -58,6 +65,11 @@ void Server::AddStaticFile(const QString& httpPath, const QString& pathToFile)
 	_staticFiles[httpPath] = pathToFile;
 }
 
+EXPORTDLL void Server::AddApplication(Application* app)
+{
+	_apps.push_back(app);
+}
+
 
 
 void Server::StartServer()
@@ -85,12 +97,34 @@ void Server::SlotReadClient()
 	os.setCodec("UTF8");
 	QString response;// = u8"HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
 
+	//! Проверка на маршруты уровня проекта
 	if (_views.contains(path))
 	{
 		response = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
 		response += _views[path]->Response(hrr);
+
+		os << response;
+		socket->close();
+		return;
 	}
-	else if (_staticFiles.contains(path.mid(1)))
+
+	//! Проверка на маршруты уровня приложений
+	for (auto& item : _apps)
+	{
+		View* view = item->GetView(path);
+		if (view != nullptr)
+		{
+			response = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
+			response += view->Response(hrr);
+
+			os << response;
+			socket->close();
+			return;
+		}
+	}
+
+	//! Проверка на получения статических файлов
+	if (_staticFiles.contains(path.mid(1)))
 	{
 		if (QFileInfo(path).suffix() == "css")
 		{
@@ -99,11 +133,15 @@ void Server::SlotReadClient()
 			staticFile.open(QIODevice::ReadOnly);
 			response += staticFile.readAll();
 			staticFile.close();
+
+			os << response;
+			socket->close();
+			return;
 		}
 	}
 
+	response = "HTTP/1.1 404 Error\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\nError 404!";
 	os << response;
-	
 	socket->close();
 }
 

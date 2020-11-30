@@ -1,26 +1,29 @@
-#pragma once
+﻿#pragma once
 #include <QtCore>
 #include <QtNetwork>
 #include "ConsoleTextStream.h"
 #include "Utils/Low-level/HttpRequestReader.h"
 #include "Views/View.h"
+#include "dll/ExportDLL.h"
+#include "Apps/Application.h"
 
 class Server : public QObject
 {
 	Q_OBJECT
 public:
-	Server(QObject* parent = nullptr);
-	~Server();
+	EXPORTDLL Server(QObject* parent = nullptr);
+	EXPORTDLL ~Server();
 
-	void SetHostAddress(const QHostAddress& hostAddress);
-	void SetPortServer(const int& port);
-	void SetStaticPath(const QString& path);
+	EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
+	EXPORTDLL void SetPortServer(const int& port);
+	EXPORTDLL void SetStaticPath(const QString& path);
 
-	void AddView(const QString& path, View* view);
-	void AddStaticFile(const QString& httpPath, const QFile& file);
-	void AddStaticFile(const QString& httpPath, const QString& pathToFile);
+	EXPORTDLL void AddView(const QString& path, View* view);
+	EXPORTDLL void AddStaticFile(const QString& httpPath, const QFile& file);
+	EXPORTDLL void AddStaticFile(const QString& httpPath, const QString& pathToFile);
+	EXPORTDLL void AddApplication(Application* app);
 
-	void StartServer();
+	EXPORTDLL void StartServer();
 
 private slots:
 	void SlotNewConnection();
@@ -37,5 +40,6 @@ private:
 	QMap<QString, View*> _views;
 	QMap<QString, QString> _staticFiles;
 	QString _staticPath;
+	QList<Application*> _apps;
 };
 

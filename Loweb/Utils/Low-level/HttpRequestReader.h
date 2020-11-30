@@ -1,16 +1,17 @@
-#pragma once
+﻿#pragma once
 #include <QtCore>
+#include "../../dll/ExportDLL.h"
 
 class HttpRequestReader
 {
 public:
-	HttpRequestReader(const QString& httpRequest, bool isProccess = true);
+	EXPORTDLL HttpRequestReader(const QString& httpRequest, bool isProccess = true);
 
-	QString GetPath();
-	QString GetMethod();
-	QString GetVariable(const QString& varname);
+	EXPORTDLL QString GetPath();
+	EXPORTDLL QString GetMethod();
+	EXPORTDLL QString GetVariable(const QString& varname);
 
-	void Proccess();
+	EXPORTDLL void Proccess();
 private:
 	QString _httpRequest;
 

@@ -36,22 +36,34 @@
     <Filter Include="Source Files\Utils\Low-level">
       <UniqueIdentifier>{ae18f8dd-3a1b-44f8-9742-768433d6790f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\dll">
+      <UniqueIdentifier>{9063332c-b30c-42bc-b690-0316e5611a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{84a8aeff-a18b-471b-9b3c-ddd2366d7bd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Apps">
+      <UniqueIdentifier>{177be678-36db-4001-bf4d-6cdf0f4ab042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Apps">
+      <UniqueIdentifier>{f939329e-ea38-4331-84e5-281fce0fec1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Views\View.cpp">
-      <Filter>Header Files\Views</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Low-level\HttpRequestReader.cpp">
       <Filter>Source Files\Utils\Low-level</Filter>
     </ClCompile>
     <ClCompile Include="Utils\render.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Views\View.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Apps\Application.cpp">
+      <Filter>Source Files\Apps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,14 +72,20 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Views\View.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Low-level\HttpRequestReader.h">
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
     <ClInclude Include="Utils\render.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="dll\ExportDLL.h">
+      <Filter>Header Files\dll</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\View.h">
+      <Filter>Header Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Apps\Application.h">
+      <Filter>Header Files\Apps</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

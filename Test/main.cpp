@@ -21,14 +21,34 @@ public:
     }
 };
 
+class MyApp : public Application
+{
+    class PageOne : public View
+    {
+    public:
+        QString Response(HttpRequestReader& request) override
+        {
+            return render(request, "pageOne.html");
+        }
+    };
+public:
+    MyApp()
+    {
+        this->AddView("pageOne", new PageOne);
+        this->SetUrlName("myapp");
+    }
+};
 
-int main(int argc, char *argv[])
+
+int main(int argc, char* argv[])
 {
     QCoreApplication a(argc, argv);
     Server s;
     s.SetHostAddress(QHostAddress("192.168.0.208"));
     s.SetPortServer(3000);
     s.SetStaticPath("static");
+
+    s.AddApplication(new MyApp);
 
     s.AddView("/", new MyView);
     s.AddView("/two/", new MyView2);

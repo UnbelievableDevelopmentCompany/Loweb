@@ -1,4 +1,4 @@
-#include "HttpRequestReader.h"
+﻿#include "HttpRequestReader.h"
 
 HttpRequestReader::HttpRequestReader(const QString& httpRequest, bool isProccess)
 {
