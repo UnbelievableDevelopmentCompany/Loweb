@@ -16,6 +16,14 @@ void Server::SlotNewConnection() {
 
 
 
+Server::~Server()
+{
+	for (View* item : _views)
+	{
+		delete item;
+	}
+}
+
 void Server::SetHostAddress(const QHostAddress& hostAddress)
 {
 	_hostAddress = hostAddress;
@@ -26,6 +34,11 @@ void Server::SetHostAddress(const QHostAddress& hostAddress)
 void Server::SetPortServer(const int& port)
 {
 	_port = port;
+}
+
+void Server::AddView(const QString& path, View* view)
+{
+	_views[path] = view;
 }
 
 
@@ -47,13 +60,15 @@ void Server::SlotReadClient()
 	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
 
 	QString request = socket->readAll();
-	qout << request;
+	qout << request << "\n";
+	HttpRequestReader h(request);
+	QString path = h.GetPath();
 
 	QTextStream os(socket);
 	os.setCodec("UTF8");
-	QString response = u8"HTTP/1.0 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
+	QString response = u8"HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
 
-	QFile htmlFile("D:\\Projects\\C++\\Loweb\\Loweb\\index.html");
+	QFile htmlFile("");
 	htmlFile.open(QIODevice::ReadOnly);
 	response += htmlFile.readAll();
 

@@ -91,17 +91,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HttpReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="View.cpp" />
+    <ClCompile Include="Utils\Low-level\HttpRequestReader.cpp" />
+    <ClCompile Include="Views\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HttpReader.h" />
-    <ClInclude Include="View.h" />
+    <ClInclude Include="Utils\Low-level\HttpRequestReader.h" />
+    <ClInclude Include="Views\View.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
