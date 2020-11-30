@@ -94,6 +94,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Utils\Low-level\HttpRequestReader.cpp" />
+    <ClCompile Include="Utils\render.cpp" />
     <ClCompile Include="Views\View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Low-level\HttpRequestReader.h" />
+    <ClInclude Include="Utils\render.h" />
     <ClInclude Include="Views\View.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

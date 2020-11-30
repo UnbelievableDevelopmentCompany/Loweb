@@ -88,7 +88,7 @@ void Server::SlotReadClient()
 	if (_views.contains(path))
 	{
 		response = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
-		response += _views[path]->request();
+		response += _views[path]->Response(hrr);
 	}
 	else if (_staticFiles.contains(path.mid(1)))
 	{
