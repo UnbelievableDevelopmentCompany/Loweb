@@ -53,9 +53,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Low-level\HttpRequestReader.cpp">
-      <Filter>Source Files\Utils\Low-level</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\render.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
@@ -65,6 +62,15 @@
     <ClCompile Include="Apps\Application.cpp">
       <Filter>Source Files\Apps</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\Low-level\HttpResponse.cpp">
+      <Filter>Source Files\Utils\Low-level</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Low-level\HttpRequest.cpp">
+      <Filter>Source Files\Utils\Low-level</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Low-level\TemplateEngine.cpp">
+      <Filter>Source Files\Utils\Low-level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Server.h">
@@ -72,9 +78,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utils\Low-level\HttpRequestReader.h">
-      <Filter>Header Files\Utils\Low-level</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\render.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
@@ -86,6 +89,15 @@
     </ClInclude>
     <ClInclude Include="Apps\Application.h">
       <Filter>Header Files\Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Low-level\HttpResponse.h">
+      <Filter>Header Files\Utils\Low-level</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Low-level\HttpRequest.h">
+      <Filter>Header Files\Utils\Low-level</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Low-level\TemplateEngine.h">
+      <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

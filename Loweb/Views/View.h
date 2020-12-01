@@ -1,9 +1,10 @@
 ﻿#pragma once
 #include <QtCore>
-#include "../Utils/Low-level/HttpRequestReader.h"
+#include "../Utils/Low-level/HttpRequest.h"
+#include "../Utils/Low-level/HttpResponse.h"
 
 class View
 {
 public:
-	virtual QString Response(HttpRequestReader & request) = 0;
+	virtual HttpResponse Response(HttpRequest& request) = 0;
 };

@@ -94,7 +94,9 @@
   <ItemGroup>
     <ClCompile Include="Apps\Application.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="Utils\Low-level\HttpRequestReader.cpp" />
+    <ClCompile Include="Utils\Low-level\HttpRequest.cpp" />
+    <ClCompile Include="Utils\Low-level\HttpResponse.cpp" />
+    <ClCompile Include="Utils\Low-level\TemplateEngine.cpp" />
     <ClCompile Include="Utils\render.cpp" />
     <ClCompile Include="Views\View.cpp" />
   </ItemGroup>
@@ -104,7 +106,9 @@
   <ItemGroup>
     <ClInclude Include="Apps\Application.h" />
     <ClInclude Include="dll\ExportDLL.h" />
-    <ClInclude Include="Utils\Low-level\HttpRequestReader.h" />
+    <ClInclude Include="Utils\Low-level\HttpRequest.h" />
+    <ClInclude Include="Utils\Low-level\HttpResponse.h" />
+    <ClInclude Include="Utils\Low-level\TemplateEngine.h" />
     <ClInclude Include="Utils\render.h" />
     <ClInclude Include="Views\View.h" />
   </ItemGroup>

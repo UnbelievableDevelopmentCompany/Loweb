@@ -2,7 +2,7 @@
 #include <QtCore>
 #include <QtNetwork>
 #include "ConsoleTextStream.h"
-#include "Utils/Low-level/HttpRequestReader.h"
+#include "Utils/Low-level/HttpRequest.h"
 #include "Views/View.h"
 #include "dll/ExportDLL.h"
 #include "Apps/Application.h"

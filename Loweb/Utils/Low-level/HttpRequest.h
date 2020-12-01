@@ -2,10 +2,10 @@
 #include <QtCore>
 #include "../../dll/ExportDLL.h"
 
-class HttpRequestReader
+class HttpRequest
 {
 public:
-	EXPORTDLL HttpRequestReader(const QString& httpRequest, bool isProccess = true);
+	EXPORTDLL HttpRequest(const QString& httpRequest, bool isProccess = true);
 
 	EXPORTDLL QString GetPath();
 	EXPORTDLL QString GetMethod();

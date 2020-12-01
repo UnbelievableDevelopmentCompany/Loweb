@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <QtCore>
-#include "Low-level/HttpRequestReader.h"
+#include "Low-level/HttpRequest.h"
+#include "Low-level/HttpResponse.h"
 #include "../dll/ExportDLL.h"
 
-EXPORTDLL QString render(HttpRequestReader& request, const QString& templatePath, const QMap<QString, QString> context = {});
+EXPORTDLL HttpResponse render(HttpRequest& request, const QString& templatePath, const QMap<QString, QString> context = {});

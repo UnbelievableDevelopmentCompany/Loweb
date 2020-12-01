@@ -7,7 +7,7 @@
 class MyView : public View
 {
 public:
-    QString Response(HttpRequestReader& request) override
+    HttpResponse Response(HttpRequest& request) override
     {
         return render(request, "index.html");
     }
@@ -15,7 +15,7 @@ public:
 class MyView2 : public View
 {
 public:
-    QString Response(HttpRequestReader& request) override
+    HttpResponse Response(HttpRequest& request) override
     {
         return render(request, "index2.html");
     }
@@ -26,16 +26,16 @@ class MyApp : public Application
     class PageOne : public View
     {
     public:
-        QString Response(HttpRequestReader& request) override
+        HttpResponse Response(HttpRequest& request) override
         {
-            return render(request, "pageOne.html");
+            return HttpResponse("Ogo!");
         }
     };
 public:
     MyApp()
     {
-        this->AddView("pageOne", new PageOne);
         this->SetUrlName("myapp");
+        this->AddView("pageOne/", new PageOne);
     }
 };
 

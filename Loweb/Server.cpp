@@ -90,18 +90,17 @@ void Server::SlotReadClient()
 
 	QString request = socket->readAll();
 	qout << request << "\n";
-	HttpRequestReader hrr(request);
+	HttpRequest hrr(request);
 	QString path = hrr.GetPath();
 
 	QTextStream os(socket);
 	os.setCodec("UTF8");
-	QString response;// = u8"HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
+	QString response;
 
 	//! Проверка на маршруты уровня проекта
 	if (_views.contains(path))
 	{
-		response = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
-		response += _views[path]->Response(hrr);
+		response = _views[path]->Response(hrr).GenerateResponse();
 
 		os << response;
 		socket->close();
@@ -114,8 +113,7 @@ void Server::SlotReadClient()
 		View* view = item->GetView(path);
 		if (view != nullptr)
 		{
-			response = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\n";
-			response += view->Response(hrr);
+			response = view->Response(hrr).GenerateResponse();
 
 			os << response;
 			socket->close();
@@ -128,10 +126,9 @@ void Server::SlotReadClient()
 	{
 		if (QFileInfo(path).suffix() == "css")
 		{
-			response = "HTTP/1.1 200 Ok\r\nContent-Type: text/css; charset=\"utf-8\"\r\n\r\n";
 			QFile staticFile(_staticFiles[path.mid(1)]);
 			staticFile.open(QIODevice::ReadOnly);
-			response += staticFile.readAll();
+			response = HttpResponse(staticFile.readAll()).SetContentType("text/css").GenerateResponse();
 			staticFile.close();
 
 			os << response;
@@ -140,7 +137,7 @@ void Server::SlotReadClient()
 		}
 	}
 
-	response = "HTTP/1.1 404 Error\r\nContent-Type: text/html; charset=\"utf-8\"\r\n\r\nError 404!";
+	response = HttpResponse("Error 404!", 404, "Error").GenerateResponse();
 	os << response;
 	socket->close();
 }

@@ -11,7 +11,7 @@ Application::~Application()
 
 EXPORTDLL void Application::AddView(const QString& path, View* view)
 {
-	_views[path] = view;
+	_views["/" + _urlname + "/" + path] = view;
 }
 
 EXPORTDLL View* Application::GetView(const QString& path)

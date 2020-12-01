@@ -1,28 +1,28 @@
-﻿#include "HttpRequestReader.h"
+﻿#include "HttpRequest.h"
 
-HttpRequestReader::HttpRequestReader(const QString& httpRequest, bool isProccess)
+HttpRequest::HttpRequest(const QString& httpRequest, bool isProccess)
 {
 	_httpRequest = httpRequest;
 	if (isProccess)
 		Proccess();
 }
 
-QString HttpRequestReader::GetPath()
+QString HttpRequest::GetPath()
 {
 	return _path;
 }
 
-QString HttpRequestReader::GetMethod()
+QString HttpRequest::GetMethod()
 {
 	return _method;
 }
 
-QString HttpRequestReader::GetVariable(const QString& varname)
+QString HttpRequest::GetVariable(const QString& varname)
 {
 	return _variables[varname];
 }
 
-void HttpRequestReader::Proccess()
+void HttpRequest::Proccess()
 {
 	QStringList lines = _httpRequest.split("\r\n");
 	lines.removeAll("");
