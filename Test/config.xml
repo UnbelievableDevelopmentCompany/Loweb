@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project>
+	<name>MyProject</name>
+	<host>
+		<address>192.168.0.208</address>
+		<port>3000</port>
+	</host>
+	<static-files>
+		<path>static</path>
+	</static-files>
+</project>

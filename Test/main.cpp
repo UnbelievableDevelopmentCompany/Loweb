@@ -46,9 +46,7 @@ class MyProject : public ProjectConfig
 public:
     MyProject()
     {
-        SetHostAddress(QHostAddress("192.168.0.208"));
-        SetHostPort(3000);
-        SetStaticPath("static");
+        Config("config.xml");
 
         AddApplication(new MyApp);
 

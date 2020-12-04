@@ -1,5 +1,6 @@
 #pragma once
 #include <QtCore>
+#include <QtXml/qdom.h>
 #include "../Server.h"
 
 class ProjectConfig
