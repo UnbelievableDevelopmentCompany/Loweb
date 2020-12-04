@@ -15,7 +15,7 @@ public:
 	EXPORTDLL ~Server();
 
 	EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
-	EXPORTDLL void SetPortServer(const int& port);
+	EXPORTDLL void SetHostPort(const int& port);
 	EXPORTDLL void SetStaticPath(const QString& path);
 
 	EXPORTDLL void AddView(const QString& path, View* view);

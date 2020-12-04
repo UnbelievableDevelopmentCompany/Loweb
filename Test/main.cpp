@@ -3,13 +3,15 @@
 #include "ConsoleTextStream.h"
 #include "Server.h"
 #include "Utils/render.h"
+#include "Utils/ProjectConfig.h"
+
 
 class MyView : public View
 {
 public:
     HttpResponse Response(HttpRequest& request) override
     {
-        return render(request, "index.html");
+        return render(request, "index.html", { {"MyVar", "Hello world"}, {"MyVar2", "hello lofectr!"} });
     }
 };
 class MyView2 : public View
@@ -39,21 +41,28 @@ public:
     }
 };
 
+class MyProject : public ProjectConfig
+{
+public:
+    MyProject()
+    {
+        SetHostAddress(QHostAddress("192.168.0.208"));
+        SetHostPort(3000);
+        SetStaticPath("static");
 
+        AddApplication(new MyApp);
+
+        AddView("/", new MyView);
+        AddView("/two/", new MyView2);
+
+        server.StartServer();
+    }
+};
 int main(int argc, char* argv[])
 {
     QCoreApplication a(argc, argv);
-    Server s;
-    s.SetHostAddress(QHostAddress("192.168.0.208"));
-    s.SetPortServer(3000);
-    s.SetStaticPath("static");
-
-    s.AddApplication(new MyApp);
-
-    s.AddView("/", new MyView);
-    s.AddView("/two/", new MyView2);
-
-    s.StartServer();
+    
+    MyProject p;
 
     return a.exec();
 }

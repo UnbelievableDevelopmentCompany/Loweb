@@ -39,7 +39,7 @@ void Server::SetHostAddress(const QHostAddress& hostAddress)
 
 
 
-void Server::SetPortServer(const int& port)
+void Server::SetHostPort(const int& port)
 {
 	_port = port;
 }

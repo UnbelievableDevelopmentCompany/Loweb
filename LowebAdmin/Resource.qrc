@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/createProject">
+        <file>Resources/main.cpp</file>
+        <file>Resources/Config/Project.cpp</file>
+        <file>Resources/Config/Project.h</file>
+    </qresource>
+</RCC>

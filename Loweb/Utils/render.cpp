@@ -6,5 +6,9 @@ HttpResponse render(HttpRequest& request, const QString& templatePath, const QMa
 	file.open(QIODevice::ReadOnly);
 	QString response = file.readAll();
 	file.close();
+
+	TemplateEngine templateEngine(response, context);
+	response = templateEngine.ProcessData();
+
 	return HttpResponse(response);
 }
