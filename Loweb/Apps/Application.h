@@ -8,7 +8,7 @@ namespace Loweb::Apps
 	class Application
 	{
 	public:
-		EXPORTDLL ~Application();
+		EXPORTDLL virtual ~Application();
 
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
 

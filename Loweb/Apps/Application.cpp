@@ -11,7 +11,7 @@ Loweb::Apps::Application::~Application()
 
 void Loweb::Apps::Application::AddView(const QString& path, Views::View* view)
 {
-	_views["/" + _urlname + "/" + path] = view;
+	_views[(_urlname.isEmpty() ? (path != "/" ? "/" + path : path) : "/" + _urlname + "/" + path)] = view;
 }
 
 Loweb::Views::View* Loweb::Apps::Application::GetView(const QString& path)

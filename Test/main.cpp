@@ -1,43 +1,32 @@
 #include <QtCore>
 #include <QtNetwork>
-#include "ConsoleTextStream.h"
-#include "Server.h"
+#include "Utils/ConsoleTextStream.h"
 #include "Utils/render.h"
-#include "Utils/ProjectConfig.h"
+#include "ProjectConfig.h"
 
+using namespace Loweb;
+using namespace Loweb::Utils;
 
-class MyView : public View
+class MyApp : public Apps::Application
 {
-public:
-    HttpResponse Response(HttpRequest& request) override
-    {
-        return render(request, "index.html", { {"MyVar", "Hello world"}, {"MyVar2", "hello lofectr!"} });
-    }
-};
-class MyView2 : public View
-{
-public:
-    HttpResponse Response(HttpRequest& request) override
-    {
-        return render(request, "index2.html");
-    }
-};
-
-class MyApp : public Application
-{
-    class PageOne : public View
+    class MyView : public Views::View
     {
     public:
-        HttpResponse Response(HttpRequest& request) override
+        Utils::LowLevel::HttpResponse Get(Utils::LowLevel::HttpRequest& request) override
         {
-            return HttpResponse("Ogo!");
+            return render(request, "hello.html");
+        }
+        Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request) override
+        {
+            return u8"ќу щит ватафак это же пост-запрос!<br> стати, значение переменной myText - " + request.GetPost("myText");
         }
     };
 public:
     MyApp()
     {
-        this->SetUrlName("myapp");
-        this->AddView("pageOne/", new PageOne);
+        this->SetUrlName("");
+        this->AddView("/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
+        this->AddView("hello/", new MyView);
     }
 };
 
@@ -49,9 +38,6 @@ public:
         Config("config.xml");
 
         AddApplication(new MyApp);
-
-        AddView("/", new MyView);
-        AddView("/two/", new MyView2);
 
         server.StartServer();
     }

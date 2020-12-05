@@ -14,7 +14,7 @@ namespace Loweb::Utils::LowLevel
 		Q_OBJECT
 	public:
 		EXPORTDLL Server(QObject* parent = nullptr);
-		EXPORTDLL ~Server();
+		EXPORTDLL virtual ~Server();
 
 		EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
 		EXPORTDLL void SetHostPort(const int& port);

@@ -74,11 +74,11 @@ void Loweb::Utils::LowLevel::Server::AddApplication(Apps::Application* app)
 
 void Loweb::Utils::LowLevel::Server::StartServer()
 {
-	if (!server->listen(QHostAddress("192.168.0.208"), 3000))
+	if (!server->listen(_hostAddress, _port))
 	{
-		qout << "Error start server!\n";
+		qout << "Error start server!\n" << server->errorString() << "\n";
 		server->close();
-		QCoreApplication::quit();
+		exit(0);
 	}
 }
 

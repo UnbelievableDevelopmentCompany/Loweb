@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <QtCore>
 #include "../../dll/ExportDLL.h"
+#include "../ConsoleTextStream.h"
 
 namespace Loweb::Utils::LowLevel
 {
@@ -12,6 +13,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL QString GetPath();
 		EXPORTDLL QString GetMethod();
 		EXPORTDLL QString GetVariable(const QString& varname);
+		EXPORTDLL QString GetPost(const QString& name);
 
 		EXPORTDLL void Proccess();
 	private:
@@ -20,5 +22,6 @@ namespace Loweb::Utils::LowLevel
 		QString _path;
 		QString _method;
 		QMap<QString, QString> _variables;
+		QMap<QString, QString> _post;
 	};
 }

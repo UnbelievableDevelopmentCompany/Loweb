@@ -8,6 +8,16 @@ namespace Loweb::Views
 	class View
 	{
 	public:
-		virtual Utils::LowLevel::HttpResponse Response(Utils::LowLevel::HttpRequest& request) = 0;
+
+		EXPORTDLL View(const QString& response);
+		EXPORTDLL View();
+
+		EXPORTDLL virtual Utils::LowLevel::HttpResponse Response(Utils::LowLevel::HttpRequest& request);
+
+		EXPORTDLL virtual Utils::LowLevel::HttpResponse Get(Utils::LowLevel::HttpRequest& request);
+
+		EXPORTDLL virtual Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request);
+	protected:
+		QString _response;
 	};
 }

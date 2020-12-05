@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Loweb", "Loweb\Loweb.vcxproj", "{35B0435E-F897-4140-8D3A-38BE3EED9547}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{B19BC370-7D84-4F3F-8C2E-0F556E59EC0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{35B0435E-F897-4140-8D3A-38BE3EED9547} = {35B0435E-F897-4140-8D3A-38BE3EED9547}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LowebAdmin", "LowebAdmin\LowebAdmin.vcxproj", "{5E8C8956-BE3E-45C9-9D17-8EF4D79335D6}"
 EndProject

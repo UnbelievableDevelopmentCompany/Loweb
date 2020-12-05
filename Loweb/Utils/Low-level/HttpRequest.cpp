@@ -22,9 +22,23 @@ QString Loweb::Utils::LowLevel::HttpRequest::GetVariable(const QString& varname)
 	return _variables[varname];
 }
 
+EXPORTDLL QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name)
+{
+	return _post[name];
+}
+
 void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 {
 	QStringList lines = _httpRequest.split("\r\n");
+
+	QStringList postVariables;
+	if (lines[lines.size() - 2] == "")
+	{
+		postVariables = lines.back().split("&");
+		lines.pop_back();
+		lines.pop_back();
+	}
+
 	lines.removeAll("");
 	QStringList firstLine = lines[0].split(" ");
 	lines.pop_front();
@@ -36,5 +50,15 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 	{
 		temp = item.split(": ");
 		_variables[temp[0]] = temp[1];
+	}
+
+	if (_method == "POST")
+	{
+		temp.clear();
+		for (auto& item : postVariables)
+		{
+			temp = item.split("=");
+			_post[temp[0]] = QUrl::fromEncoded(temp[1].replace("+", " ").toLocal8Bit()).path();
+		}
 	}
 }
