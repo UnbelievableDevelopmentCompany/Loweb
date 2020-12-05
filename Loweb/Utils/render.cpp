@@ -1,14 +1,14 @@
 ﻿#include "render.h"
 
-HttpResponse render(HttpRequest& request, const QString& templatePath, const QMap<QString, QString> context)
+Loweb::Utils::LowLevel::HttpResponse Loweb::Utils::render(LowLevel::HttpRequest& request, const QString& templatePath, const QMap<QString, QString> context)
 {
 	QFile file(templatePath);
 	file.open(QIODevice::ReadOnly);
 	QString response = file.readAll();
 	file.close();
 
-	TemplateEngine templateEngine(response, context);
+	LowLevel::TemplateEngine templateEngine(response, context);
 	response = templateEngine.ProcessData();
 
-	return HttpResponse(response);
+	return LowLevel::HttpResponse(response);
 }

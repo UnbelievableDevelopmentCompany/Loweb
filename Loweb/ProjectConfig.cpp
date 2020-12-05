@@ -1,26 +1,26 @@
 #include "ProjectConfig.h"
 
-void ProjectConfig::SetProjectName(const QString& projectName)
+void Loweb::ProjectConfig::SetProjectName(const QString& projectName)
 {
 	_projectName = projectName;
 }
 
-void ProjectConfig::SetHostAddress(const QHostAddress& hostAddress)
+void Loweb::ProjectConfig::SetHostAddress(const QHostAddress& hostAddress)
 {
 	server.SetHostAddress(hostAddress);
 }
 
-void ProjectConfig::SetHostPort(const quint16& port)
+void Loweb::ProjectConfig::SetHostPort(const quint16& port)
 {
 	server.SetHostPort(port);
 }
 
-void ProjectConfig::SetStaticPath(const QString& staticPath)
+void Loweb::ProjectConfig::SetStaticPath(const QString& staticPath)
 {
 	server.SetStaticPath(staticPath);
 }
 
-EXPORTDLL void ProjectConfig::Config(const QString& pathToConfigXml)
+EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
 {
 	QFile configFile(pathToConfigXml);
 	if (!configFile.open(QIODevice::ReadOnly))
@@ -85,22 +85,22 @@ EXPORTDLL void ProjectConfig::Config(const QString& pathToConfigXml)
 	}
 }
 
-void ProjectConfig::AddApplication(Application* application)
+void Loweb::ProjectConfig::AddApplication(Apps::Application* application)
 {
 	server.AddApplication(application);
 }
 
-void ProjectConfig::AddView(const QString& path, View* view)
+void Loweb::ProjectConfig::AddView(const QString& path, Views::View* view)
 {
 	server.AddView(path, view);
 }
 
-EXPORTDLL void ProjectConfig::AddStaticFile(const QString& httpPath, const QFile& file)
+EXPORTDLL void Loweb::ProjectConfig::AddStaticFile(const QString& httpPath, const QFile& file)
 {
 	server.AddStaticFile(httpPath, file);
 }
 
-EXPORTDLL void ProjectConfig::AddStaticFile(const QString& httpPath, const QString& pathToFile)
+EXPORTDLL void Loweb::ProjectConfig::AddStaticFile(const QString& httpPath, const QString& pathToFile)
 {
 	server.AddStaticFile(httpPath, pathToFile);
 }

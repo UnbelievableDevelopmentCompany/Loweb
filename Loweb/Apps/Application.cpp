@@ -1,6 +1,6 @@
 ﻿#include "Application.h"
 
-Application::~Application()
+Loweb::Apps::Application::~Application()
 {
 	for (auto& item : _views)
 	{
@@ -9,24 +9,24 @@ Application::~Application()
 	}
 }
 
-EXPORTDLL void Application::AddView(const QString& path, View* view)
+void Loweb::Apps::Application::AddView(const QString& path, Views::View* view)
 {
 	_views["/" + _urlname + "/" + path] = view;
 }
 
-EXPORTDLL View* Application::GetView(const QString& path)
+Loweb::Views::View* Loweb::Apps::Application::GetView(const QString& path)
 {
 	if (_views.contains(path))
 		return _views[path];
 	return nullptr;
 }
 
-EXPORTDLL const QString& Application::GetUrlName() const
+const QString& Loweb::Apps::Application::GetUrlName() const
 {
 	return _urlname;
 }
 
-EXPORTDLL void Application::SetUrlName(const QString& urlname)
+void Loweb::Apps::Application::SetUrlName(const QString& urlname)
 {
 	_urlname = urlname;
 }

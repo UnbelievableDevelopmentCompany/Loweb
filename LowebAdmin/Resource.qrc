@@ -3,5 +3,9 @@
         <file>Resources/main.cpp</file>
         <file>Resources/Config/Project.cpp</file>
         <file>Resources/Config/Project.h</file>
+        <file>Resources/TestForCreateProject.sln</file>
+        <file>Resources/TestForCreateProject.vcxproj</file>
+        <file>Resources/TestForCreateProject.vcxproj.filters</file>
+        <file>Resources/TestForCreateProject.vcxproj.user</file>
     </qresource>
 </RCC>

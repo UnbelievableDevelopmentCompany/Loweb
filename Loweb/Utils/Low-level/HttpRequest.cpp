@@ -1,28 +1,28 @@
 ﻿#include "HttpRequest.h"
 
-HttpRequest::HttpRequest(const QString& httpRequest, bool isProccess)
+Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, bool isProccess)
 {
 	_httpRequest = httpRequest;
 	if (isProccess)
 		Proccess();
 }
 
-QString HttpRequest::GetPath()
+QString Loweb::Utils::LowLevel::HttpRequest::GetPath()
 {
 	return _path;
 }
 
-QString HttpRequest::GetMethod()
+QString Loweb::Utils::LowLevel::HttpRequest::GetMethod()
 {
 	return _method;
 }
 
-QString HttpRequest::GetVariable(const QString& varname)
+QString Loweb::Utils::LowLevel::HttpRequest::GetVariable(const QString& varname)
 {
 	return _variables[varname];
 }
 
-void HttpRequest::Proccess()
+void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 {
 	QStringList lines = _httpRequest.split("\r\n");
 	lines.removeAll("");

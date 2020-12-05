@@ -1,6 +1,6 @@
 ﻿#include "Server.h"
 
-Server::Server(QObject* parent) : QObject(parent)
+Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 {
 	server = new QTcpServer(this);
 	QObject::connect(server, SIGNAL(newConnection()), this, SLOT(SlotNewConnection()));
@@ -8,7 +8,7 @@ Server::Server(QObject* parent) : QObject(parent)
 
 
 
-void Server::SlotNewConnection() {
+void Loweb::Utils::LowLevel::Server::SlotNewConnection() {
 	QTcpSocket* socket = server->nextPendingConnection();
 	qout << "New connection: " << socket->peerAddress().toString() << "\n";
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
@@ -16,7 +16,7 @@ void Server::SlotNewConnection() {
 
 
 
-Server::~Server()
+Loweb::Utils::LowLevel::Server::~Server()
 {
 	for (auto& item : _views)
 	{
@@ -31,7 +31,7 @@ Server::~Server()
 	}
 }
 
-void Server::SetHostAddress(const QHostAddress& hostAddress)
+void Loweb::Utils::LowLevel::Server::SetHostAddress(const QHostAddress& hostAddress)
 {
 	_hostAddress = hostAddress;
 	_staticFiles.clear();
@@ -39,40 +39,40 @@ void Server::SetHostAddress(const QHostAddress& hostAddress)
 
 
 
-void Server::SetHostPort(const int& port)
+void Loweb::Utils::LowLevel::Server::SetHostPort(const int& port)
 {
 	_port = port;
 }
 
-void Server::SetStaticPath(const QString& path)
+void Loweb::Utils::LowLevel::Server::SetStaticPath(const QString& path)
 {
 	_staticPath = path;
 	UpdateStaticFiles(_staticPath);
 }
 
-void Server::AddView(const QString& path, View* view)
+void Loweb::Utils::LowLevel::Server::AddView(const QString& path, Views::View* view)
 {
 	_views[path] = view;
 }
 
-void Server::AddStaticFile(const QString& httpPath, const QFile& file)
+void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, const QFile& file)
 {
 	_staticFiles[httpPath] = file.fileName();
 }
 
-void Server::AddStaticFile(const QString& httpPath, const QString& pathToFile)
+void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, const QString& pathToFile)
 {
 	_staticFiles[httpPath] = pathToFile;
 }
 
-EXPORTDLL void Server::AddApplication(Application* app)
+void Loweb::Utils::LowLevel::Server::AddApplication(Apps::Application* app)
 {
 	_apps.push_back(app);
 }
 
 
 
-void Server::StartServer()
+void Loweb::Utils::LowLevel::Server::StartServer()
 {
 	if (!server->listen(QHostAddress("192.168.0.208"), 3000))
 	{
@@ -84,7 +84,7 @@ void Server::StartServer()
 
 
 
-void Server::SlotReadClient()
+void Loweb::Utils::LowLevel::Server::SlotReadClient()
 {
 	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
 
@@ -110,7 +110,7 @@ void Server::SlotReadClient()
 	//! Проверка на маршруты уровня приложений
 	for (auto& item : _apps)
 	{
-		View* view = item->GetView(path);
+		Views::View* view = item->GetView(path);
 		if (view != nullptr)
 		{
 			response = view->Response(hrr).GenerateResponse();
@@ -142,7 +142,7 @@ void Server::SlotReadClient()
 	socket->close();
 }
 
-void Server::UpdateStaticFiles(const QString& path)
+void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 {
 	QDir staticDir(path);
 	staticDir.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);

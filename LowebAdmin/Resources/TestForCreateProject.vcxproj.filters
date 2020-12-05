@@ -18,29 +18,36 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{e502f9ce-85c0-424d-9380-fced1a68019c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{25d7eecf-1835-4051-a1e4-c703828b049f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Views">
+      <UniqueIdentifier>{5bc56061-0347-43f1-9e72-ebcd0f9bbbbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{5443a4f6-d74e-4a5d-974c-7f2841e46dd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Apps">
+      <UniqueIdentifier>{a4949e6c-3889-4e3c-923f-896bcce6809b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Apps">
+      <UniqueIdentifier>{9c1c9bf0-081a-4982-bb18-2c16d73d8884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LowebAdmin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="getEnv.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Config\{{ProjectName}}.cpp">
+      <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LowebAdmin.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Config\{{ProjectName}}.h">
+      <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="getEnv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="Resource.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
   </ItemGroup>
 </Project>

@@ -2,21 +2,23 @@
 #include <QtCore>
 #include "../../dll/ExportDLL.h"
 
-class HttpRequest
+namespace Loweb::Utils::LowLevel
 {
-public:
-	EXPORTDLL HttpRequest(const QString& httpRequest, bool isProccess = true);
+	class HttpRequest
+	{
+	public:
+		EXPORTDLL HttpRequest(const QString& httpRequest, bool isProccess = true);
 
-	EXPORTDLL QString GetPath();
-	EXPORTDLL QString GetMethod();
-	EXPORTDLL QString GetVariable(const QString& varname);
+		EXPORTDLL QString GetPath();
+		EXPORTDLL QString GetMethod();
+		EXPORTDLL QString GetVariable(const QString& varname);
 
-	EXPORTDLL void Proccess();
-private:
-	QString _httpRequest;
+		EXPORTDLL void Proccess();
+	private:
+		QString _httpRequest;
 
-	QString _path;
-	QString _method;
-	QMap<QString, QString> _variables;
-};
-
+		QString _path;
+		QString _method;
+		QMap<QString, QString> _variables;
+	};
+}

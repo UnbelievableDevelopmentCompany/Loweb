@@ -1,6 +1,6 @@
 #include "Utils/ProjectConfig.h"
 
-class {{ProjectName}}
+class {{ProjectName}} : public ProjectConfig
 {
 public:
 	{{ProjectName}}();

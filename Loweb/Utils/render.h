@@ -5,4 +5,7 @@
 #include "../dll/ExportDLL.h"
 #include "Low-level/TemplateEngine.h"
 
-EXPORTDLL HttpResponse render(HttpRequest& request, const QString& templatePath, const QMap<QString, QString> context = {});
+namespace Loweb::Utils
+{
+	EXPORTDLL LowLevel::HttpResponse render(LowLevel::HttpRequest& request, const QString& templatePath, const QMap<QString, QString> context = {});
+}

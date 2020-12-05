@@ -93,24 +93,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Apps\Application.cpp" />
-    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ProjectConfig.cpp" />
     <ClCompile Include="Utils\Low-level\HttpRequest.cpp" />
     <ClCompile Include="Utils\Low-level\HttpResponse.cpp" />
+    <ClCompile Include="Utils\Low-level\Server.cpp" />
     <ClCompile Include="Utils\Low-level\TemplateEngine.cpp" />
-    <ClCompile Include="Utils\ProjectConfig.cpp" />
     <ClCompile Include="Utils\render.cpp" />
     <ClCompile Include="Views\View.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Server.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Apps\Application.h" />
     <ClInclude Include="dll\ExportDLL.h" />
+    <ClInclude Include="ProjectConfig.h" />
     <ClInclude Include="Utils\Low-level\HttpRequest.h" />
     <ClInclude Include="Utils\Low-level\HttpResponse.h" />
+    <QtMoc Include="Utils\Low-level\Server.h" />
     <ClInclude Include="Utils\Low-level\TemplateEngine.h" />
-    <ClInclude Include="Utils\ProjectConfig.h" />
     <ClInclude Include="Utils\render.h" />
     <ClInclude Include="Views\View.h" />
   </ItemGroup>

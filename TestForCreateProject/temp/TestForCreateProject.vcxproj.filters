@@ -18,29 +18,24 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{57571abd-5c05-4b95-80a1-57501fe3e6bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{e0d8a826-9b4d-42d0-99aa-09ef0e5b293f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LowebAdmin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="getEnv.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Config\TestForCreateProject.cpp">
+      <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LowebAdmin.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Config\TestForCreateProject.h">
+      <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="getEnv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="Resource.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
   </ItemGroup>
 </Project>

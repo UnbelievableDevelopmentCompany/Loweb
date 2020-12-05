@@ -3,20 +3,21 @@
 #include "../dll/ExportDLL.h"
 #include "../Views/View.h"
 
-
-class Application
+namespace Loweb::Apps
 {
-public:
-	EXPORTDLL ~Application();
+	class Application
+	{
+	public:
+		EXPORTDLL ~Application();
 
-	EXPORTDLL void AddView(const QString& path, View* view);
+		EXPORTDLL void AddView(const QString& path, Views::View* view);
 
-	EXPORTDLL View* GetView(const QString& path);
-	EXPORTDLL const QString& GetUrlName() const;
+		EXPORTDLL Views::View* GetView(const QString& path);
+		EXPORTDLL const QString& GetUrlName() const;
 
-	EXPORTDLL void SetUrlName(const QString& urlname);
-private:
-	QMap<QString, View*> _views;
-	QString _urlname;
-};
-
+		EXPORTDLL void SetUrlName(const QString& urlname);
+	private:
+		QMap<QString, Views::View*> _views;
+		QString _urlname;
+	};
+}

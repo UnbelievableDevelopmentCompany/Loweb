@@ -50,9 +50,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\render.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
@@ -71,14 +68,12 @@
     <ClCompile Include="Utils\Low-level\TemplateEngine.cpp">
       <Filter>Source Files\Utils\Low-level</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\ProjectConfig.cpp">
+    <ClCompile Include="Utils\Low-level\Server.cpp">
+      <Filter>Source Files\Utils\Low-level</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Server.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\render.h">
@@ -102,8 +97,13 @@
     <ClInclude Include="Utils\Low-level\TemplateEngine.h">
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\ProjectConfig.h">
+    <ClInclude Include="ProjectConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Utils\Low-level\Server.h">
+      <Filter>Header Files\Utils\Low-level</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

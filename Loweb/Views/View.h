@@ -3,8 +3,11 @@
 #include "../Utils/Low-level/HttpRequest.h"
 #include "../Utils/Low-level/HttpResponse.h"
 
-class View
+namespace Loweb::Views
 {
-public:
-	virtual HttpResponse Response(HttpRequest& request) = 0;
-};
+	class View
+	{
+	public:
+		virtual Utils::LowLevel::HttpResponse Response(Utils::LowLevel::HttpRequest& request) = 0;
+	};
+}
