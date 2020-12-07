@@ -1,6 +1,11 @@
 ﻿#include "View.h"
 
-Loweb::Views::View::View(const QString& response) : _response(response)
+Loweb::Views::View::View(const QString& response, Loweb::Apps::Application* parentApp)
+	: _response(response), _parentApp(parentApp)
+{
+}
+
+Loweb::Views::View::View(Loweb::Apps::Application* parentApp) : _parentApp(parentApp)
 {
 }
 
@@ -32,4 +37,9 @@ Loweb::Utils::LowLevel::HttpResponse Loweb::Views::View::Get(Utils::LowLevel::Ht
 Loweb::Utils::LowLevel::HttpResponse Loweb::Views::View::Post(Utils::LowLevel::HttpRequest& request)
 {
 	return _response;
+}
+
+void Loweb::Views::View::SetParentApp(Apps::Application* app)
+{
+	_parentApp = app;
 }

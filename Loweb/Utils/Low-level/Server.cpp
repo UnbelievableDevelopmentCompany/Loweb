@@ -52,6 +52,7 @@ void Loweb::Utils::LowLevel::Server::SetStaticPath(const QString& path)
 
 void Loweb::Utils::LowLevel::Server::AddView(const QString& path, Views::View* view)
 {
+	view->SetParentApp(nullptr);
 	_views[path] = view;
 }
 
@@ -67,6 +68,7 @@ void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, cons
 
 void Loweb::Utils::LowLevel::Server::AddApplication(Apps::Application* app)
 {
+	app->SetParentApp(nullptr);
 	_apps.push_back(app);
 }
 
@@ -110,15 +112,11 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	//! Проверка на маршруты уровня приложений
 	for (auto& item : _apps)
 	{
-		Views::View* view = item->GetView(path);
-		if (view != nullptr)
-		{
-			response = view->Response(hrr).GenerateResponse();
+		response = CheckPathToAppsView(path, item)->Response(hrr).GenerateResponse();
 
-			os << response;
-			socket->close();
-			return;
-		}
+		os << response;
+		socket->close();
+		return;
 	}
 
 	//! Проверка на получения статических файлов
@@ -159,6 +157,26 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 			{
 				_staticFiles[item.fileName()] = path + "/" + item.fileName();
 			}
+		}
+	}
+}
+
+Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QString& path, Apps::Application* app)
+{
+	if (path.startsWith(app->GetUrlName()))
+	{
+		QString newPath = path.mid(app->GetUrlName().size());
+
+		Views::View* view = app->GetView(newPath);
+		if (view != nullptr)
+		{
+			return view;
+		}
+
+		for (auto& item : app->GetApps())
+		{
+			view = CheckPathToAppsView(newPath, item);
+			return view;
 		}
 	}
 }

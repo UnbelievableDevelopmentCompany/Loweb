@@ -14,18 +14,24 @@ class MyApp : public Apps::Application
     public:
         Utils::LowLevel::HttpResponse Get(Utils::LowLevel::HttpRequest& request) override
         {
-            return render(request, "hello.html");
+            QMap<QString, QString> context;
+
+
+            context["data"] = request.GetGet("myText");
+
+            return render(request, "hello.html", context);
         }
         Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request) override
         {
+            qout << request.GetPost("myText");
             return u8"ќу щит ватафак это же пост-запрос!<br> стати, значение переменной myText - " + request.GetPost("myText");
         }
     };
 public:
     MyApp()
     {
-        this->SetUrlName("");
-        this->AddView("/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
+        this->SetUrlName("one/two/free");
+        this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
 };

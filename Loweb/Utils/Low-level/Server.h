@@ -33,6 +33,7 @@ namespace Loweb::Utils::LowLevel
 
 	private:
 		void UpdateStaticFiles(const QString& path);
+		Views::View* CheckPathToAppsView(const QString& path, Apps::Application* app);
 	private:
 		QTcpServer* server;
 

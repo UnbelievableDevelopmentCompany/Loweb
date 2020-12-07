@@ -14,6 +14,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL QString GetMethod();
 		EXPORTDLL QString GetVariable(const QString& varname);
 		EXPORTDLL QString GetPost(const QString& name);
+		EXPORTDLL QString GetGet(const QString& name);
 
 		EXPORTDLL void Proccess();
 	private:
@@ -23,5 +24,6 @@ namespace Loweb::Utils::LowLevel
 		QString _method;
 		QMap<QString, QString> _variables;
 		QMap<QString, QString> _post;
+		QMap<QString, QString> _get;
 	};
 }

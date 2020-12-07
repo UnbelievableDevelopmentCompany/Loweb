@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -7,9 +7,11 @@
 	<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-	<form action="/hello/" method="post">
+	<form action="/hello/" method="get" name="myForm">
 		<textarea name="myText"></textarea>
-		<input type="submit" text="Нажми на меня уже!" name="mySubmit">
+		<input type="submit" value="Нажми на меня уже!" name="mySubmit">
 	</form>
+
+	Result - {{data}}
 </body>
 </html>

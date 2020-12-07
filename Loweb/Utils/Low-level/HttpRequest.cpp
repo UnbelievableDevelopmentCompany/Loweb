@@ -22,9 +22,14 @@ QString Loweb::Utils::LowLevel::HttpRequest::GetVariable(const QString& varname)
 	return _variables[varname];
 }
 
-EXPORTDLL QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name)
+QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name)
 {
 	return _post[name];
+}
+
+QString Loweb::Utils::LowLevel::HttpRequest::GetGet(const QString& name)
+{
+	return _get[name];
 }
 
 void Loweb::Utils::LowLevel::HttpRequest::Proccess()
@@ -59,6 +64,28 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 		{
 			temp = item.split("=");
 			_post[temp[0]] = QUrl::fromEncoded(temp[1].replace("+", " ").toLocal8Bit()).path();
+		}
+	}
+
+	if (_path.contains("?"))
+	{
+		temp = _path.split("?");
+		_path = temp[0];
+		QString getData = temp[1];
+
+		temp.clear();
+		temp.push_back(getData);
+
+		if (getData.contains("&"))
+		{
+			temp = getData.split("&");
+		}
+
+		QStringList temp2;
+		for (auto& item : temp)
+		{
+			temp2 = item.split("=");
+			_get[temp2[0]] = QUrl::fromEncoded(temp2[1].replace("+", " ").toLocal8Bit()).path();
 		}
 	}
 }
