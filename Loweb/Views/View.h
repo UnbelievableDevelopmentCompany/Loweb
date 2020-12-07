@@ -2,8 +2,11 @@
 #include <QtCore>
 #include "../Utils/Low-level/HttpRequest.h"
 #include "../Utils/Low-level/HttpResponse.h"
-#include "../Apps/Application.h"
 
+namespace Loweb::Apps
+{
+class Application;
+}
 
 namespace Loweb::Views
 {

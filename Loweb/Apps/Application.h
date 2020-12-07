@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <QtCore>
 #include "../dll/ExportDLL.h"
+
 #include "../Views/View.h"
 
 namespace Loweb::Apps
