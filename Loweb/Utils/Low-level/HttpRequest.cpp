@@ -1,6 +1,7 @@
 ﻿#include "HttpRequest.h"
 
-Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, bool isProccess)
+Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, Loweb::Utils::LowLevel::Session* session, bool isProccess)
+	:_session(session)
 {
 	_httpRequest = httpRequest;
 	if (isProccess)
@@ -30,6 +31,11 @@ QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name)
 QString Loweb::Utils::LowLevel::HttpRequest::GetGet(const QString& name)
 {
 	return _get[name];
+}
+
+Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::HttpRequest::GetSession()
+{
+	return _session;
 }
 
 void Loweb::Utils::LowLevel::HttpRequest::Proccess()

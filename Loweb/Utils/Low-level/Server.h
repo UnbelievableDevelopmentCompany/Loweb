@@ -6,6 +6,7 @@
 #include "../../Views/View.h"
 #include "../../dll/ExportDLL.h"
 #include "../../Apps/Application.h"
+#include "Session.h"
 
 namespace Loweb::Utils::LowLevel
 {
@@ -19,6 +20,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
 		EXPORTDLL void SetHostPort(const int& port);
 		EXPORTDLL void SetStaticPath(const QString& path);
+		EXPORTDLL Session* GetSession(const QString& ipAddress);
 
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QFile& file);
@@ -44,5 +46,7 @@ namespace Loweb::Utils::LowLevel
 		QMap<QString, QString> _staticFiles;
 		QString _staticPath;
 		QList<Apps::Application*> _apps;
+		
+		QList<Session*> _sessions;
 	};
 }

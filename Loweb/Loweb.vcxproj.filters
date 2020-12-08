@@ -74,6 +74,12 @@
     <ClCompile Include="ProjectConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\Low-level\Session.cpp">
+      <Filter>Source Files\Utils\Low-level</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\generateRandomString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\render.h">
@@ -98,6 +104,12 @@
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
     <ClInclude Include="ProjectConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Low-level\Session.h">
+      <Filter>Header Files\Utils\Low-level</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\generateRandomString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

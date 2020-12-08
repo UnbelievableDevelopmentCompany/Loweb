@@ -3,6 +3,7 @@
 #include "Utils/ConsoleTextStream.h"
 #include "Utils/render.h"
 #include "ProjectConfig.h"
+#include "Utils/generateRandomString.h"
 
 using namespace Loweb;
 using namespace Loweb::Utils;
@@ -19,6 +20,8 @@ class MyApp : public Apps::Application
 
             context["data"] = request.GetGet("myText");
 
+            context["MyCsrf"] = request.GetSession()->GetData("CSRF_TOKEN");
+
             return render(request, "hello.html", context);
         }
         Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request) override
@@ -30,8 +33,8 @@ class MyApp : public Apps::Application
 public:
     MyApp()
     {
-        this->SetUrlName("one/two/free");
-        this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
+        this->SetUrlName("one/two/free/");
+        this->AddView("four/", new Views::View(u8"<a href=\"/one/two/free/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
 };

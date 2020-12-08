@@ -7,11 +7,18 @@
 	<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-	<form action="/hello/" method="get" name="myForm">
+	<form action="/one/two/free/hello/" method="get" name="myForm">
 		<textarea name="myText"></textarea>
 		<input type="submit" value="Нажми на меня уже!" name="mySubmit">
 	</form>
 
-	Result - {{data}}
+	Result - <div id="My">{{data}}</div>
+
+
+	<hr>
+	<div>CSFR_TOKEN={{CSRF_TOKEN}}</div>
+	<div>MyCsrf={{MyCsrf}}</div>
+
+	<script src="/index.js"></script>
 </body>
 </html>

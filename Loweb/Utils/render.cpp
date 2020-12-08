@@ -7,7 +7,7 @@ Loweb::Utils::LowLevel::HttpResponse Loweb::Utils::render(LowLevel::HttpRequest&
 	QString response = file.readAll();
 	file.close();
 
-	LowLevel::TemplateEngine templateEngine(response, context);
+	LowLevel::TemplateEngine templateEngine(response, context, request);
 	response = templateEngine.ProcessData();
 
 	return LowLevel::HttpResponse(response);

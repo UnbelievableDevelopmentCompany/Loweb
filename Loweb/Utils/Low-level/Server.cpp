@@ -1,4 +1,5 @@
 ﻿#include "Server.h"
+#include "../generateRandomString.h"
 
 Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 {
@@ -10,7 +11,20 @@ Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 
 void Loweb::Utils::LowLevel::Server::SlotNewConnection() {
 	QTcpSocket* socket = server->nextPendingConnection();
-	qout << "New connection: " << socket->peerAddress().toString() << "\n";
+
+	Session* session = GetSession(socket->peerAddress().toString());
+	if (session == nullptr)
+	{
+		qout << "Create session";
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(10)));
+	}
+	else if (session->isExpiration())
+	{
+		qout << "Update session";
+		_sessions.removeOne(session);
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(10)));
+	}
+
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
 }
 
@@ -25,6 +39,12 @@ Loweb::Utils::LowLevel::Server::~Server()
 	}
 
 	for (auto& item : _apps)
+	{
+		if (item != nullptr)
+			delete item;
+	}
+
+	for (auto& item : _sessions)
 	{
 		if (item != nullptr)
 			delete item;
@@ -48,6 +68,17 @@ void Loweb::Utils::LowLevel::Server::SetStaticPath(const QString& path)
 {
 	_staticPath = path;
 	UpdateStaticFiles(_staticPath);
+}
+
+Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::Server::GetSession(const QString& ipAddress)
+{
+	auto session = std::find_if(_sessions.begin(), _sessions.end(), [&](Session* a) {
+		return a->GetIp() == ipAddress;
+	});
+
+	if (session == _sessions.end())
+		return nullptr;
+	return *session;
 }
 
 void Loweb::Utils::LowLevel::Server::AddView(const QString& path, Views::View* view)
@@ -92,12 +123,28 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 
 	QString request = socket->readAll();
 	qout << request << "\n";
-	HttpRequest hrr(request);
+
+	Session* session = GetSession(socket->peerAddress().toString());
+	if (session == nullptr)
+	{
+		qout << "Session error!";
+		server->close();
+		exit(0);
+	}
+
+	HttpRequest hrr(request, session);
 	QString path = hrr.GetPath();
 
 	QTextStream os(socket);
 	os.setCodec("UTF8");
 	QString response;
+
+
+	//! CSRF-проверка
+	if (hrr.GetMethod() == "POST")
+	{
+		QString tockenFromClient = hrr.GetPost("CSRF_TOKEN");
+	}
 
 	//! Проверка на маршруты уровня проекта
 	if (_views.contains(path))
@@ -112,11 +159,14 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	//! Проверка на маршруты уровня приложений
 	for (auto& item : _apps)
 	{
-		response = CheckPathToAppsView(path, item)->Response(hrr).GenerateResponse();
-
-		os << response;
-		socket->close();
-		return;
+		Views::View* view = CheckPathToAppsView(path, item);
+		if (view != nullptr)
+		{
+			response = view->Response(hrr).GenerateResponse();
+			os << response;
+			socket->close();
+			return;
+		}
 	}
 
 	//! Проверка на получения статических файлов
@@ -127,6 +177,17 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 			QFile staticFile(_staticFiles[path.mid(1)]);
 			staticFile.open(QIODevice::ReadOnly);
 			response = HttpResponse(staticFile.readAll()).SetContentType("text/css").GenerateResponse();
+			staticFile.close();
+
+			os << response;
+			socket->close();
+			return;
+		}
+		else if (QFileInfo(path).suffix() == "js")
+		{
+			QFile staticFile(_staticFiles[path.mid(1)]);
+			staticFile.open(QIODevice::ReadOnly);
+			response = HttpResponse(staticFile.readAll()).SetContentType("text/javascript").GenerateResponse();
 			staticFile.close();
 
 			os << response;
@@ -163,11 +224,11 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 
 Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QString& path, Apps::Application* app)
 {
-	if (path.startsWith(app->GetUrlName()))
+	if (path.startsWith("/" + app->GetUrlName()))
 	{
 		QString newPath = path.mid(app->GetUrlName().size());
 
-		Views::View* view = app->GetView(newPath);
+		Views::View* view = app->GetView(newPath.mid(1));
 		if (view != nullptr)
 		{
 			return view;
@@ -179,4 +240,5 @@ Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QS
 			return view;
 		}
 	}
+	return nullptr;
 }
