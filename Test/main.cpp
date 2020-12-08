@@ -20,14 +20,13 @@ class MyApp : public Apps::Application
 
             context["data"] = request.GetGet("myText");
 
-            context["MyCsrf"] = request.GetSession()->GetData("CSRF_TOKEN");
-
             return render(request, "hello.html", context);
         }
         Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request) override
         {
-            qout << request.GetPost("myText");
-            return u8"Оу щит ватафак это же пост-запрос!<br>Кстати, значение переменной myText - " + request.GetPost("myText");
+            QMap<QString, QString> context;
+            context["data"] = request.GetPost("myText");
+            return render(request, "hello.html", context);
         }
     };
 public:

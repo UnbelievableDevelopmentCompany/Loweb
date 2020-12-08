@@ -15,14 +15,12 @@ void Loweb::Utils::LowLevel::Server::SlotNewConnection() {
 	Session* session = GetSession(socket->peerAddress().toString());
 	if (session == nullptr)
 	{
-		qout << "Create session";
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(10)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 	else if (session->isExpiration())
 	{
-		qout << "Update session";
 		_sessions.removeOne(session);
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(10)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
@@ -143,7 +141,19 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	//! CSRF-проверка
 	if (hrr.GetMethod() == "POST")
 	{
-		QString tockenFromClient = hrr.GetPost("CSRF_TOKEN");
+		QString tokenFromClient = hrr.GetPost("CSRF_TOKEN");
+
+		QString tokenFromServer = session->GetData("CSRF_TOKEN");
+
+		if (tokenFromClient != tokenFromServer)
+		{
+			// Значит происходит csrf-атака!
+			qout << "CSRF-атака!\n";
+			response = HttpResponse(u8"CSRF-атака, запрос не был обработан!").GenerateResponse();
+			os << response;
+			socket->close();
+			return;
+		}
 	}
 
 	//! Проверка на маршруты уровня проекта
