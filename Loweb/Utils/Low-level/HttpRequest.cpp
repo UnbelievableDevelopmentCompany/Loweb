@@ -108,5 +108,6 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 
 	// Приведение пути запроса к читабельному виду.
 	// То есть обработка кодов по типу %20.
+	_path = (_path.endsWith("/") ? _path : _path + "/");
 	_path = QUrl::fromEncoded(_path.toLocal8Bit()).path();
 }

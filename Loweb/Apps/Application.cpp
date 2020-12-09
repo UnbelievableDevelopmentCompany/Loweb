@@ -1,6 +1,6 @@
 ﻿#include "Application.h"
 
-Loweb::Apps::Application::Application()
+Loweb::Apps::Application::Application() : _parentApp(nullptr)
 {
 }
 

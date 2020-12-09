@@ -9,6 +9,14 @@ using namespace Loweb::Utils;
 
 class MyApp : public Apps::Application
 {
+    class Test : public Application
+    {
+    public:
+        Test()
+        {
+            AddView("", new Views::View("Ha-ha"));
+        }
+    };
     class MyView : public Views::View
     {
     public:
@@ -30,6 +38,7 @@ class MyApp : public Apps::Application
 public:
     MyApp()
     {
+        AddApplication("ha-ha/", new Test);
         this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
