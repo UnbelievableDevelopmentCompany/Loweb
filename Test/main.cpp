@@ -17,7 +17,6 @@ class MyApp : public Apps::Application
         {
             QMap<QString, QString> context;
 
-
             context["data"] = request.GetGet("myText");
 
             return render(request, "hello.html", context);
@@ -32,8 +31,8 @@ class MyApp : public Apps::Application
 public:
     MyApp()
     {
-        this->SetUrlName("one/two/free/");
-        this->AddView("four/", new Views::View(u8"<a href=\"/one/two/free/hello/\">—сылка</a>"));
+        this->SetUrlName("");
+        this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
 };
