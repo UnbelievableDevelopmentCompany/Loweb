@@ -33,6 +33,11 @@ QString Loweb::Utils::LowLevel::HttpRequest::GetGet(const QString& name)
 	return _get[name];
 }
 
+QString Loweb::Utils::LowLevel::HttpRequest::GetCookie(const QString& name)
+{
+	return _cookies[name];
+}
+
 Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::HttpRequest::GetSession()
 {
 	return _session;
@@ -42,6 +47,7 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 {
 	QStringList lines = _httpRequest.split("\r\n");
 
+	// Данные с post-запроса
 	QStringList postVariables;
 	if (lines[lines.size() - 2] == "")
 	{
@@ -51,11 +57,14 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 	}
 
 	lines.removeAll("");
+
+	// Получение метода и пути
 	QStringList firstLine = lines[0].split(" ");
 	lines.pop_front();
 	_method = firstLine[0];
 	_path = firstLine[1];
 
+	// Все http-данные(например Content-Length)
 	QStringList temp;
 	for (auto& item : lines)
 	{
@@ -63,6 +72,7 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 		_variables[temp[0]] = temp[1];
 	}
 
+	// Обработка данных post-запроса
 	if (_method == "POST")
 	{
 		temp.clear();
@@ -73,6 +83,7 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 		}
 	}
 
+	// Если в пути присутствует символ "?" - значит после него идут данные get-запроса
 	if (_path.contains("?"))
 	{
 		temp = _path.split("?");
@@ -94,4 +105,8 @@ void Loweb::Utils::LowLevel::HttpRequest::Proccess()
 			_get[temp2[0]] = QUrl::fromEncoded(temp2[1].replace("+", " ").toLocal8Bit()).path();
 		}
 	}
+
+	// Приведение пути запроса к читабельному виду.
+	// То есть обработка кодов по типу %20.
+	_path = QUrl::fromEncoded(_path.toLocal8Bit()).path();
 }

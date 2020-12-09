@@ -14,7 +14,7 @@ namespace Loweb
 		EXPORTDLL void SetStaticPath(const QString& staticPath);
 		EXPORTDLL void Config(const QString& pathToConfigXml);
 
-		EXPORTDLL void AddApplication(Apps::Application* application);
+		EXPORTDLL void AddApplication(const QString& path, Apps::Application* application);
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QFile& file);
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QString& pathToFile);

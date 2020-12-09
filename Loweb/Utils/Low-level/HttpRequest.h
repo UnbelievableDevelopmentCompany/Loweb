@@ -16,6 +16,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL QString GetVariable(const QString& varname);
 		EXPORTDLL QString GetPost(const QString& name);
 		EXPORTDLL QString GetGet(const QString& name);
+		EXPORTDLL QString GetCookie(const QString& name);
 		EXPORTDLL Session* GetSession();
 
 		EXPORTDLL void Proccess();
@@ -27,6 +28,8 @@ namespace Loweb::Utils::LowLevel
 		QMap<QString, QString> _variables;
 		QMap<QString, QString> _post;
 		QMap<QString, QString> _get;
+
+		QMap<QString, QString> _cookies;
 
 		Session* _session;
 	};

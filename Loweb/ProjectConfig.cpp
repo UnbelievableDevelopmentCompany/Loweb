@@ -85,9 +85,9 @@ EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
 	}
 }
 
-void Loweb::ProjectConfig::AddApplication(Apps::Application* application)
+void Loweb::ProjectConfig::AddApplication(const QString& path, Apps::Application* application)
 {
-	server.AddApplication(application);
+	server.AddApplication(path, application);
 }
 
 void Loweb::ProjectConfig::AddView(const QString& path, Views::View* view)

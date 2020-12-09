@@ -3,7 +3,6 @@
 #include "Utils/ConsoleTextStream.h"
 #include "Utils/render.h"
 #include "ProjectConfig.h"
-#include "Utils/generateRandomString.h"
 
 using namespace Loweb;
 using namespace Loweb::Utils;
@@ -31,7 +30,6 @@ class MyApp : public Apps::Application
 public:
     MyApp()
     {
-        this->SetUrlName("");
         this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
@@ -44,7 +42,7 @@ public:
     {
         Config("config.xml");
 
-        AddApplication(new MyApp);
+        AddApplication("", new MyApp);
 
         server.StartServer();
     }

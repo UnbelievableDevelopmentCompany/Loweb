@@ -4,8 +4,14 @@
 
 #include "../Views/View.h"
 
+/// <summary>
+/// В данном namespace хранятся классы, которые описывают приложение
+/// </summary>
 namespace Loweb::Apps
 {
+	/// <summary>
+	/// Базовый класс приложения
+	/// </summary>
 	class Application
 	{
 	public:
@@ -15,19 +21,16 @@ namespace Loweb::Apps
 		EXPORTDLL virtual ~Application();
 
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
-		EXPORTDLL void AddApplication(Application* app);
+		EXPORTDLL void AddApplication(const QString& path, Application* app);
 
 		EXPORTDLL Views::View* GetView(const QString& path);
-		EXPORTDLL const QString& GetUrlName() const;
-		EXPORTDLL QList<Application*>& GetApps();
-
-		EXPORTDLL void SetUrlName(const QString& urlname);
+		EXPORTDLL Application* GetApplication(const QString& path);
+		EXPORTDLL QMap<QString, Application*>& GetApplications();
 
 		EXPORTDLL void SetParentApp(Application* parentApp);
 	private:
 		QMap<QString, Views::View*> _views;
-		QList<Application*> _apps;
-		QString _urlname;
+		QMap<QString, Application*> _apps;
 		Application* _parentApp;
 	};
 }

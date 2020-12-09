@@ -25,7 +25,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QFile& file);
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QString& pathToFile);
-		EXPORTDLL void AddApplication(Apps::Application* app);
+		EXPORTDLL void AddApplication(const QString& path, Apps::Application* app);
 
 		EXPORTDLL void StartServer();
 
@@ -35,7 +35,7 @@ namespace Loweb::Utils::LowLevel
 
 	private:
 		void UpdateStaticFiles(const QString& path);
-		Views::View* CheckPathToAppsView(const QString& path, Apps::Application* app);
+		Views::View* CheckPathToAppsView(const QString& path, Apps::Application* app, const QString& appUrl);
 	private:
 		QTcpServer* server;
 
@@ -45,7 +45,7 @@ namespace Loweb::Utils::LowLevel
 		QMap<QString, Views::View*> _views;
 		QMap<QString, QString> _staticFiles;
 		QString _staticPath;
-		QList<Apps::Application*> _apps;
+		QMap<QString, Apps::Application*> _apps;
 		
 		QList<Session*> _sessions;
 	};

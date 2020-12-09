@@ -1,6 +1,7 @@
 ﻿#include "Server.h"
 #include "../generateRandomString.h"
 
+
 Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 {
 	server = new QTcpServer(this);
@@ -95,10 +96,11 @@ void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, cons
 	_staticFiles[httpPath] = pathToFile;
 }
 
-void Loweb::Utils::LowLevel::Server::AddApplication(Apps::Application* app)
+void Loweb::Utils::LowLevel::Server::AddApplication(const QString& path, Apps::Application* app)
 {
 	app->SetParentApp(nullptr);
-	_apps.push_back(app);
+
+	_apps[path] = app;
 }
 
 
@@ -167,9 +169,9 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	}
 
 	//! Проверка на маршруты уровня приложений
-	for (auto& item : _apps)
+	for (auto app = _apps.keyValueBegin(); app != _apps.keyValueEnd(); ++app)
 	{
-		Views::View* view = CheckPathToAppsView(path, item);
+		Views::View* view = CheckPathToAppsView(path, app.base().value(), app.base().key());
 		if (view != nullptr)
 		{
 			response = view->Response(hrr).GenerateResponse();
@@ -232,11 +234,11 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 	}
 }
 
-Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QString& path, Apps::Application* app)
+Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QString& path, Apps::Application* app, const QString& appUrl)
 {
-	if (path.startsWith("/" + app->GetUrlName()))
+	if (path.startsWith("/" + appUrl))
 	{
-		QString newPath = path.mid(app->GetUrlName().size());
+		QString newPath = path.mid(appUrl.size());
 
 		Views::View* view = app->GetView(newPath.mid(1));
 		if (view != nullptr)
@@ -244,9 +246,9 @@ Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QS
 			return view;
 		}
 
-		for (auto& item : app->GetApps())
+		for (auto childApp = app->GetApplications().keyValueBegin(); childApp != app->GetApplications().keyValueEnd(); ++childApp)
 		{
-			view = CheckPathToAppsView(newPath, item);
+			view = CheckPathToAppsView(newPath, childApp.base().value(), childApp.base().key());
 			return view;
 		}
 	}
