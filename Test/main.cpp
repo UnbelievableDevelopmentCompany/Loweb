@@ -51,7 +51,7 @@ public:
     {
         Config("config.xml");
 
-        AddApplication("", new MyApp);
+        AddApplication("hello/", new MyApp);
 
         server.StartServer();
     }
