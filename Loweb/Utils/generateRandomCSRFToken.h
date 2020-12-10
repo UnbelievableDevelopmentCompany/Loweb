@@ -3,4 +3,7 @@
 #include "../dll/ExportDLL.h"
 #include "ConsoleTextStream.h"
 
-EXPORTDLL QString generateRandomString(quint64 size = 15);
+namespace Loweb::Utils
+{
+	EXPORTDLL QString generateRandomCSRFToken(quint64 size = 15);
+}

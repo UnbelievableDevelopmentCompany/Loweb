@@ -77,8 +77,8 @@
     <ClCompile Include="Utils\Low-level\Session.cpp">
       <Filter>Source Files\Utils\Low-level</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\generateRandomString.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utils\generateRandomCSRFToken.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,8 +109,8 @@
     <ClInclude Include="Utils\Low-level\Session.h">
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\generateRandomString.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utils\generateRandomCSRFToken.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

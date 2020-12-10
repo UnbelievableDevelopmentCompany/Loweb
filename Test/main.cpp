@@ -61,6 +61,6 @@ int main(int argc, char* argv[])
     QCoreApplication a(argc, argv);
     
     MyProject p;
-
+    
     return a.exec();
 }

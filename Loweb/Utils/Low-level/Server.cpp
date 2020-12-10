@@ -1,5 +1,5 @@
 ﻿#include "Server.h"
-#include "../generateRandomString.h"
+#include "../generateRandomCSRFToken.h"
 
 
 Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
@@ -16,12 +16,12 @@ void Loweb::Utils::LowLevel::Server::SlotNewConnection() {
 	Session* session = GetSession(socket->peerAddress().toString());
 	if (session == nullptr)
 	{
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(15*60)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 	else if (session->isExpiration())
 	{
 		_sessions.removeOne(session);
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomString(30)} }, QDateTime::currentDateTime().addSecs(15*60)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
