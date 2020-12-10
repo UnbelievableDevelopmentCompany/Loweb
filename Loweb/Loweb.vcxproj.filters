@@ -71,14 +71,17 @@
     <ClCompile Include="Utils\Low-level\Server.cpp">
       <Filter>Source Files\Utils\Low-level</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\Low-level\Session.cpp">
       <Filter>Source Files\Utils\Low-level</Filter>
     </ClCompile>
     <ClCompile Include="Utils\generateRandomCSRFToken.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,14 +106,17 @@
     <ClInclude Include="Utils\Low-level\TemplateEngine.h">
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Low-level\Session.h">
       <Filter>Header Files\Utils\Low-level</Filter>
     </ClInclude>
     <ClInclude Include="Utils\generateRandomCSRFToken.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

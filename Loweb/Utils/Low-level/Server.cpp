@@ -48,25 +48,32 @@ Loweb::Utils::LowLevel::Server::~Server()
 		if (item != nullptr)
 			delete item;
 	}
+
+	if (_config != nullptr)
+		delete _config;
+}
+
+void Loweb::Utils::LowLevel::Server::SetConfig(Loweb::Config* config)
+{
+	_config = config;
 }
 
 void Loweb::Utils::LowLevel::Server::SetHostAddress(const QHostAddress& hostAddress)
 {
-	_hostAddress = hostAddress;
+	_config->hostAddress = hostAddress;
 	_staticFiles.clear();
 }
 
 
-
 void Loweb::Utils::LowLevel::Server::SetHostPort(const int& port)
 {
-	_port = port;
+	_config->hostPort = port;
 }
 
 void Loweb::Utils::LowLevel::Server::SetStaticPath(const QString& path)
 {
-	_staticPath = path;
-	UpdateStaticFiles(_staticPath);
+	_config->staticPath = path;
+	UpdateStaticFiles(_config->staticPath);
 }
 
 Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::Server::GetSession(const QString& ipAddress)
@@ -107,7 +114,8 @@ void Loweb::Utils::LowLevel::Server::AddApplication(const QString& path, Apps::A
 
 void Loweb::Utils::LowLevel::Server::StartServer()
 {
-	if (!server->listen(_hostAddress, _port))
+	UpdateStaticFiles(_config->staticPath);
+	if (!server->listen(_config->hostAddress, _config->hostPort))
 	{
 		qout << "Error start server!\n" << server->errorString() << "\n";
 		server->close();

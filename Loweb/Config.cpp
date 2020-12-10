@@ -1,26 +1,6 @@
-#include "ProjectConfig.h"
+#include "Config.h"
 
-void Loweb::ProjectConfig::SetProjectName(const QString& projectName)
-{
-	_projectName = projectName;
-}
-
-void Loweb::ProjectConfig::SetHostAddress(const QHostAddress& hostAddress)
-{
-	server.SetHostAddress(hostAddress);
-}
-
-void Loweb::ProjectConfig::SetHostPort(const quint16& port)
-{
-	server.SetHostPort(port);
-}
-
-void Loweb::ProjectConfig::SetStaticPath(const QString& staticPath)
-{
-	server.SetStaticPath(staticPath);
-}
-
-EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
+void Loweb::Config::Configure(const QString& pathToConfigXml)
 {
 	QFile configFile(pathToConfigXml);
 	if (!configFile.open(QIODevice::ReadOnly))
@@ -42,7 +22,7 @@ EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
 				QDomElement element = childs.item(i).toElement();
 				if (element.tagName() == "name")
 				{
-					SetProjectName(element.text());
+					projectName = element.text();
 				}
 
 				else if (element.tagName() == "host")
@@ -55,11 +35,11 @@ EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
 							QDomElement hostElement = hostChilds.item(j).toElement();
 							if (hostElement.tagName() == "address")
 							{
-								SetHostAddress(QHostAddress(hostElement.text()));
+								hostAddress = QHostAddress(hostElement.text());
 							}
 							else if (hostElement.tagName() == "port")
 							{
-								SetHostPort(hostElement.text().toInt());
+								hostPort = hostElement.text().toInt();
 							}
 						}
 					}
@@ -75,32 +55,18 @@ EXPORTDLL void Loweb::ProjectConfig::Config(const QString& pathToConfigXml)
 							QDomElement staticFilesElement = staticFilesChilds.item(j).toElement();
 							if (staticFilesElement.tagName() == "path")
 							{
-								SetStaticPath(element.text());
+								staticPath = element.text();
 							}
 						}
 					}
 				}
+
+				else if (element.tagName() == "name-csrf-token")
+				{
+					nameCSRFToken = element.text();
+				}
+
 			}
 		}
 	}
-}
-
-void Loweb::ProjectConfig::AddApplication(const QString& path, Apps::Application* application)
-{
-	server.AddApplication(path, application);
-}
-
-void Loweb::ProjectConfig::AddView(const QString& path, Views::View* view)
-{
-	server.AddView(path, view);
-}
-
-EXPORTDLL void Loweb::ProjectConfig::AddStaticFile(const QString& httpPath, const QFile& file)
-{
-	server.AddStaticFile(httpPath, file);
-}
-
-EXPORTDLL void Loweb::ProjectConfig::AddStaticFile(const QString& httpPath, const QString& pathToFile)
-{
-	server.AddStaticFile(httpPath, pathToFile);
 }

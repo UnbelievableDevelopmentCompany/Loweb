@@ -93,7 +93,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Apps\Application.cpp" />
-    <ClCompile Include="ProjectConfig.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Project.cpp" />
     <ClCompile Include="Utils\generateRandomCSRFToken.cpp" />
     <ClCompile Include="Utils\Low-level\HttpRequest.cpp" />
     <ClCompile Include="Utils\Low-level\HttpResponse.cpp" />
@@ -105,8 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\Application.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="dll\ExportDLL.h" />
-    <ClInclude Include="ProjectConfig.h" />
+    <ClInclude Include="Project.h" />
     <ClInclude Include="Utils\generateRandomCSRFToken.h" />
     <ClInclude Include="Utils\Low-level\HttpRequest.h" />
     <ClInclude Include="Utils\Low-level\HttpResponse.h" />

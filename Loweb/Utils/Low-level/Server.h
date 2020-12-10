@@ -7,6 +7,7 @@
 #include "../../dll/ExportDLL.h"
 #include "../../Apps/Application.h"
 #include "Session.h"
+#include "../../Config.h"
 
 namespace Loweb::Utils::LowLevel
 {
@@ -17,9 +18,12 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL Server(QObject* parent = nullptr);
 		EXPORTDLL virtual ~Server();
 
+		EXPORTDLL void SetConfig(Loweb::Config* config);
+
 		EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
 		EXPORTDLL void SetHostPort(const int& port);
 		EXPORTDLL void SetStaticPath(const QString& path);
+
 		EXPORTDLL Session* GetSession(const QString& ipAddress);
 
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
@@ -39,14 +43,12 @@ namespace Loweb::Utils::LowLevel
 	private:
 		QTcpServer* server;
 
-		QHostAddress _hostAddress;
-		int _port;
-
 		QMap<QString, Views::View*> _views;
 		QMap<QString, QString> _staticFiles;
-		QString _staticPath;
 		QMap<QString, Apps::Application*> _apps;
 		
 		QList<Session*> _sessions;
+
+		Config* _config;
 	};
 }

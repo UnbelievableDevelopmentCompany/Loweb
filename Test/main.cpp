@@ -2,7 +2,7 @@
 #include <QtNetwork>
 #include "Utils/ConsoleTextStream.h"
 #include "Utils/render.h"
-#include "ProjectConfig.h"
+#include "Project.h"
 
 using namespace Loweb;
 using namespace Loweb::Utils;
@@ -44,12 +44,12 @@ public:
     }
 };
 
-class MyProject : public ProjectConfig
+class MyProject : public Project
 {
 public:
     MyProject()
     {
-        Config("config.xml");
+        config->Configure("config.xml");
 
         AddApplication("hello/", new MyApp);
 
