@@ -182,11 +182,12 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	}
 
 	//! Проверка на получения статических файлов
-	if (_staticFiles.contains(path.mid(1)))
+	QString staticFileName = path.mid(1, path.size() - (path.endsWith("/") ? 2 : 1));
+	if (_staticFiles.contains(staticFileName))
 	{
-		if (QFileInfo(path).suffix() == "css")
+		if (QFileInfo(staticFileName).suffix() == "css")
 		{
-			QFile staticFile(_staticFiles[path.mid(1)]);
+			QFile staticFile(_staticFiles[staticFileName]);
 			staticFile.open(QIODevice::ReadOnly);
 			response = HttpResponse(staticFile.readAll()).SetContentType("text/css").GenerateResponse();
 			staticFile.close();
@@ -195,9 +196,9 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 			socket->close();
 			return;
 		}
-		else if (QFileInfo(path).suffix() == "js")
+		else if (QFileInfo(staticFileName).suffix() == "js")
 		{
-			QFile staticFile(_staticFiles[path.mid(1)]);
+			QFile staticFile(_staticFiles[staticFileName]);
 			staticFile.open(QIODevice::ReadOnly);
 			response = HttpResponse(staticFile.readAll()).SetContentType("text/javascript").GenerateResponse();
 			staticFile.close();

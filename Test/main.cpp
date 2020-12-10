@@ -24,7 +24,7 @@ class MyApp : public Apps::Application
         {
             QMap<QString, QString> context;
 
-            context["data"] = request.GetGet("myText");
+            context["data"] = "Anatar loh";
 
             return render(request, "hello.html", context);
         }
