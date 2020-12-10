@@ -2,7 +2,7 @@
 <project>
 	<name>MyProject</name>
 	<host>
-		<address>192.168.0.208</address>
+		<address>localhost</address>
 		<port>80</port>
 	</host>
 	<static-files>
