@@ -4,13 +4,32 @@
 #include "../ConsoleTextStream.h"
 #include "Session.h"
 
+
+/// <summary>
+/// Тут хранятся низкоуровневые инструменты
+/// </summary>
 namespace Loweb::Utils::LowLevel
 {
+	/// <summary>
+	/// Класс, описывающий http-запрос с клиента.
+	/// </summary>
 	class HttpRequest
 	{
 	public:
+		/// <summary>
+		/// Класс, описывающий запрос клиента на сервер.
+		/// Он умеет обрабатывать запрос, чтобы все данные получать удобными методами
+		/// </summary>
+		/// <param name="httpRequest">Сам запрос в виде строки</param>
+		/// <param name="session">Текущая сессия, чтобы можно было манипулировать данными сессии откуда угодно</param>
+		/// <param name="isProccess"></param>
 		EXPORTDLL HttpRequest(const QString& httpRequest, Session* session, bool isProccess = true);
 
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		EXPORTDLL QString GetPath();
 		EXPORTDLL QString GetMethod();
 		EXPORTDLL QString GetVariable(const QString& varname);
