@@ -24,4 +24,14 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="config.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="hello.html">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

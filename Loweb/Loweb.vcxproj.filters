@@ -48,6 +48,12 @@
     <Filter Include="Source Files\Apps">
       <UniqueIdentifier>{f939329e-ea38-4331-84e5-281fce0fec1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models\DataTypes">
+      <UniqueIdentifier>{c788b14d-9009-45e7-b8ce-d663856ba554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{11cbde60-2195-4d8a-a983-31bc2a1bd2ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\render.cpp">
@@ -83,6 +89,12 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Models\Model.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\DataTypes\Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\render.h">
@@ -116,6 +128,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Model.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\DataTypes\Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

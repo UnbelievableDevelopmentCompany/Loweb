@@ -1,9 +1,10 @@
 #include "TemplateEngine.h"
+#include "Server.h"
 
 Loweb::Utils::LowLevel::TemplateEngine::TemplateEngine(const QString& data, const QMap<QString, QString>& context, const Loweb::Utils::LowLevel::HttpRequest& httpRequest)
 	:_data(data), _context(context), _httpRequest(httpRequest)
 {
-	_context["CSRF_TOKEN"] = _httpRequest.GetSession()->GetData("CSRF_TOKEN");
+	_context[_httpRequest.GetServer()->GetConfig()->nameCSRFToken] = _httpRequest.GetSession()->GetData(_httpRequest.GetServer()->GetConfig()->nameCSRFToken);
 }
 
 QString Loweb::Utils::LowLevel::TemplateEngine::ProcessData()

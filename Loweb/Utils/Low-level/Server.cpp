@@ -10,18 +10,19 @@ Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 
 
 
-void Loweb::Utils::LowLevel::Server::SlotNewConnection() {
+void Loweb::Utils::LowLevel::Server::SlotNewConnection()
+{
 	QTcpSocket* socket = server->nextPendingConnection();
 
 	Session* session = GetSession(socket->peerAddress().toString());
 	if (session == nullptr)
 	{
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {_config->nameCSRFToken, generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 	else if (session->isExpiration())
 	{
 		_sessions.removeOne(session);
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {"CSRF_TOKEN", generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
+		_sessions.push_back(new Session(socket->peerAddress().toString(), { {_config->nameCSRFToken, generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
 	}
 
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
@@ -56,6 +57,11 @@ Loweb::Utils::LowLevel::Server::~Server()
 void Loweb::Utils::LowLevel::Server::SetConfig(Loweb::Config* config)
 {
 	_config = config;
+}
+
+EXPORTDLL Loweb::Config* Loweb::Utils::LowLevel::Server::GetConfig()
+{
+	return _config;
 }
 
 void Loweb::Utils::LowLevel::Server::SetHostAddress(const QHostAddress& hostAddress)
@@ -114,6 +120,18 @@ void Loweb::Utils::LowLevel::Server::AddApplication(const QString& path, Apps::A
 
 void Loweb::Utils::LowLevel::Server::StartServer()
 {
+	// database settings
+	_database = QSqlDatabase::addDatabase(_config->dbms);
+	_database.setDatabaseName(_config->dbName);
+
+	if (!_database.open())
+	{
+		qout << "Error open database!\n" << _database.lastError();
+		exit(0);
+	}
+
+
+	// Start server
 	UpdateStaticFiles(_config->staticPath);
 	if (!server->listen(_config->hostAddress, _config->hostPort))
 	{
@@ -140,7 +158,7 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 		exit(0);
 	}
 
-	HttpRequest hrr(request, session);
+	HttpRequest hrr(request, session, this);
 	QString path = hrr.GetPath();
 
 	QTextStream os(socket);
@@ -151,9 +169,9 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 	//! CSRF-проверка
 	if (hrr.GetMethod() == "POST")
 	{
-		QString tokenFromClient = hrr.GetPost("CSRF_TOKEN");
+		QString tokenFromClient = hrr.GetPost(_config->nameCSRFToken);
 
-		QString tokenFromServer = session->GetData("CSRF_TOKEN");
+		QString tokenFromServer = session->GetData(_config->nameCSRFToken);
 
 		if (tokenFromClient != tokenFromServer)
 		{

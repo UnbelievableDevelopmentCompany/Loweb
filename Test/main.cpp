@@ -39,7 +39,7 @@ public:
     MyApp()
     {
         AddApplication("ha-ha/", new Test);
-        this->AddView("four/", new Views::View(u8"<a href=\"/hello/\">—сылка</a>"));
+        this->AddView("four/", new Views::View(u8"<a href=\"/hello/hello/\">—сылка</a>"));
         this->AddView("hello/", new MyView);
     }
 };

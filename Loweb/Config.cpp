@@ -66,6 +66,38 @@ void Loweb::Config::Configure(const QString& pathToConfigXml)
 					nameCSRFToken = element.text();
 				}
 
+				else if (element.tagName() == "database")
+				{
+					QDomNodeList databaseChilds = element.childNodes();
+					for (int j = 0; j < databaseChilds.size(); ++j)
+					{
+						if (databaseChilds.item(j).isElement())
+						{
+							QDomElement databaseElement = databaseChilds.item(j).toElement();
+							if (databaseElement.tagName() == "host-name")
+							{
+								dbHostName = element.text();
+							}
+							else if (databaseElement.tagName() == "name")
+							{
+								dbName = element.text();
+							}
+							else if (databaseElement.tagName() == "user-name")
+							{
+								dbUserName = element.text();
+							}
+							else if (databaseElement.tagName() == "password")
+							{
+								dbPassword = element.text();
+							}
+							else if (databaseElement.tagName() == "dbms")
+							{
+								dbms = element.text();
+							}
+						}
+					}
+				}
+
 			}
 		}
 	}

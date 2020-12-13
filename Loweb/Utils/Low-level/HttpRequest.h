@@ -4,6 +4,10 @@
 #include "../ConsoleTextStream.h"
 #include "Session.h"
 
+namespace Loweb::Utils::LowLevel
+{
+	class Server;
+}
 
 /// <summary>
 /// Тут хранятся низкоуровневые инструменты
@@ -23,7 +27,7 @@ namespace Loweb::Utils::LowLevel
 		/// <param name="httpRequest">Сам запрос в виде строки</param>
 		/// <param name="session">Текущая сессия, чтобы можно было манипулировать данными сессии откуда угодно</param>
 		/// <param name="isProccess"></param>
-		EXPORTDLL HttpRequest(const QString& httpRequest, Session* session, bool isProccess = true);
+		EXPORTDLL HttpRequest(const QString& httpRequest, Session* session, Server* server, bool isProccess = true);
 
 
 		/// <summary>
@@ -37,6 +41,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL QString GetGet(const QString& name);
 		EXPORTDLL QString GetCookie(const QString& name);
 		EXPORTDLL Session* GetSession();
+		EXPORTDLL Server* GetServer();
 
 		EXPORTDLL void Proccess();
 	private:
@@ -51,5 +56,6 @@ namespace Loweb::Utils::LowLevel
 		QMap<QString, QString> _cookies;
 
 		Session* _session;
+		Server* _server;
 	};
 }

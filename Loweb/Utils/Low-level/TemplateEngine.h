@@ -8,7 +8,7 @@ namespace Loweb::Utils::LowLevel
 	class TemplateEngine
 	{
 	public:
-		EXPORTDLL TemplateEngine(const QString& data, const QMap<QString, QString>& context, const HttpRequest& httpRequest = HttpRequest("",nullptr));
+		EXPORTDLL TemplateEngine(const QString& data, const QMap<QString, QString>& context, const HttpRequest& httpRequest);
 		EXPORTDLL QString ProcessData();
 	private:
 		QString _data;

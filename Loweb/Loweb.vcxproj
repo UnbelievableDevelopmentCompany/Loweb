@@ -54,7 +54,7 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>
-    <QtModules>core;network;xml</QtModules>
+    <QtModules>core;network;sql;xml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -94,6 +94,8 @@
   <ItemGroup>
     <ClCompile Include="Apps\Application.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Models\DataTypes\Base.cpp" />
+    <ClCompile Include="Models\Model.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="Utils\generateRandomCSRFToken.cpp" />
     <ClCompile Include="Utils\Low-level\HttpRequest.cpp" />
@@ -108,6 +110,8 @@
     <ClInclude Include="Apps\Application.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="dll\ExportDLL.h" />
+    <ClInclude Include="Models\DataTypes\Base.h" />
+    <ClInclude Include="Models\Model.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="Utils\generateRandomCSRFToken.h" />
     <ClInclude Include="Utils\Low-level\HttpRequest.h" />

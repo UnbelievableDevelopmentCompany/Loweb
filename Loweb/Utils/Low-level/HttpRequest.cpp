@@ -1,7 +1,7 @@
 ﻿#include "HttpRequest.h"
 
-Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, Loweb::Utils::LowLevel::Session* session, bool isProccess)
-	:_session(session)
+Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, Loweb::Utils::LowLevel::Session* session, Server* server, bool isProccess)
+	: _session(session), _server(server)
 {
 	_httpRequest = httpRequest;
 	if (isProccess)
@@ -41,6 +41,11 @@ QString Loweb::Utils::LowLevel::HttpRequest::GetCookie(const QString& name)
 Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::HttpRequest::GetSession()
 {
 	return _session;
+}
+
+Loweb::Utils::LowLevel::Server* Loweb::Utils::LowLevel::HttpRequest::GetServer()
+{
+	return _server;
 }
 
 void Loweb::Utils::LowLevel::HttpRequest::Proccess()

@@ -2,10 +2,15 @@
 <project>
 	<name>MyProject</name>
 	<host>
-		<address>192.168.0.208</address>
-		<port>80</port>
+		<address>localhost</address>
+		<port>3000</port>
 	</host>
 	<static-files>
 		<path>static</path>
 	</static-files>
+	<name-csrf-token>CSRF_TOKEN</name-csrf-token>
+
+	<database>
+		<name>db.sqlite3</name>
+	</database>
 </project>

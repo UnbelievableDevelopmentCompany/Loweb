@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <QtCore>
 #include <QtNetwork>
+#include <QtSql/qsqldatabase.h>
+#include <QtSql/qsqlquery.h>
 #include "../ConsoleTextStream.h"
 #include "HttpRequest.h"
 #include "../../Views/View.h"
@@ -19,6 +21,7 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL virtual ~Server();
 
 		EXPORTDLL void SetConfig(Loweb::Config* config);
+		EXPORTDLL Config* GetConfig();
 
 		EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
 		EXPORTDLL void SetHostPort(const int& port);
@@ -50,5 +53,8 @@ namespace Loweb::Utils::LowLevel
 		QList<Session*> _sessions;
 
 		Config* _config;
+		
+		QSqlDatabase _database;
+		QSqlQuery _dbQuery;
 	};
 }
