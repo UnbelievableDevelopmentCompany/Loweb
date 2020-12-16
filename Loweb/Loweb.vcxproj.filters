@@ -54,6 +54,9 @@
     <Filter Include="Source Files\Models">
       <UniqueIdentifier>{11cbde60-2195-4d8a-a983-31bc2a1bd2ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Models\DataTypes">
+      <UniqueIdentifier>{e04cb3ce-bef2-43ed-a8dd-7d5d7ff849c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\render.cpp">
@@ -93,7 +96,7 @@
       <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="Models\DataTypes\Base.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Models\DataTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,7 +137,7 @@
       <Filter>Header Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="Models\DataTypes\Base.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Models\DataTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

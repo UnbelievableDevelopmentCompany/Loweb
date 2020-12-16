@@ -79,8 +79,14 @@ namespace Loweb::Apps
 		/// <param name="parentApp">Указатель на родительское приложение</param>
 		EXPORTDLL void SetParentApp(Application* parentApp);
 	private:
+
+		// Словарь: путь до view -> указатель на view
 		QMap<QString, Views::View*> _views;
+
+		// Словарь: путь до приложения -> указатель на приложение
 		QMap<QString, Application*> _apps;
+
+		// Указатель на родительское приложение
 		Application* _parentApp;
 	};
 }

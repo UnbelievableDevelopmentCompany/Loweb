@@ -3,6 +3,10 @@
 #include "DataTypes/Base.h"
 #include "../dll/ExportDLL.h"
 
+
+/// <summary>
+/// ¬ данном namespace хран€тс€ классы св€занные с модел€ми
+/// </summary>
 namespace Loweb::Models
 {
 	class Model
@@ -13,7 +17,8 @@ namespace Loweb::Models
 		EXPORTDLL QString GetTableName();
 		void AddData(DataTypes::Base* data);
 	private:
-		QString _tableName;
-		QList<DataTypes::Base*> _data;
+		static QString _tableName;
+		static QList<DataTypes::Base*> _data;
+		QList<QVariant> _values;
 	};
 }
