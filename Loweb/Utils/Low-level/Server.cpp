@@ -126,7 +126,7 @@ void Loweb::Utils::LowLevel::Server::StartServer()
 
 	if (!_database.open())
 	{
-		qout << "Error open database!\n" << _database.lastError();
+		qout << "Error open database!\n" << _database.lastError().text();
 		exit(0);
 	}
 
@@ -247,7 +247,7 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 	if (staticDir.exists())
 	{
 		QFileInfoList fil = staticDir.entryInfoList();
-		for (auto item : fil)
+		for (const auto& item : fil)
 		{
 			if (item.isDir())
 			{

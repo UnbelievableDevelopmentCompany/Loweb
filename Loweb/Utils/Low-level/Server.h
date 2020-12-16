@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include <QtCore>
 #include <QtNetwork>
+
 #include <QtSql/qsqldatabase.h>
 #include <QtSql/qsqlquery.h>
+#include <QtSql/qsqlerror.h>
+
 #include "../ConsoleTextStream.h"
 #include "HttpRequest.h"
 #include "../../Views/View.h"

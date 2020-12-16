@@ -1,9 +1,8 @@
 ﻿#include "HttpRequest.h"
 
 Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, Loweb::Utils::LowLevel::Session* session, Server* server, bool isProccess)
-	: _session(session), _server(server)
+	: _session(session), _server(server), _httpRequest(httpRequest)
 {
-	_httpRequest = httpRequest;
 	if (isProccess)
 		Proccess();
 }

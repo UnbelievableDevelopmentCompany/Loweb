@@ -24,7 +24,7 @@ class MyApp : public Apps::Application
         {
             QMap<QString, QString> context;
 
-            context["data"] = "Anatar loh";
+            context["data"] = "Anatar lol";
 
             return render(request, "hello.html", context);
         }
@@ -56,6 +56,7 @@ public:
         server.StartServer();
     }
 };
+
 int main(int argc, char* argv[])
 {
     QCoreApplication a(argc, argv);
