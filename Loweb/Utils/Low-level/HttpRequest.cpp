@@ -7,42 +7,42 @@ Loweb::Utils::LowLevel::HttpRequest::HttpRequest(const QString& httpRequest, Low
 		Proccess();
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetPath()
+QString Loweb::Utils::LowLevel::HttpRequest::GetPath() const
 {
 	return _path;
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetMethod()
+QString Loweb::Utils::LowLevel::HttpRequest::GetMethod() const
 {
 	return _method;
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetVariable(const QString& varname)
+QString Loweb::Utils::LowLevel::HttpRequest::GetVariable(const QString& varname) const
 {
 	return _variables[varname];
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name)
+QString Loweb::Utils::LowLevel::HttpRequest::GetPost(const QString& name) const
 {
 	return _post[name];
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetGet(const QString& name)
+QString Loweb::Utils::LowLevel::HttpRequest::GetGet(const QString& name) const
 {
 	return _get[name];
 }
 
-QString Loweb::Utils::LowLevel::HttpRequest::GetCookie(const QString& name)
+QString Loweb::Utils::LowLevel::HttpRequest::GetCookie(const QString& name) const
 {
 	return _cookies[name];
 }
 
-Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::HttpRequest::GetSession()
+Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::HttpRequest::GetSession() const
 {
 	return _session;
 }
 
-Loweb::Utils::LowLevel::Server* Loweb::Utils::LowLevel::HttpRequest::GetServer()
+Loweb::Utils::LowLevel::Server* Loweb::Utils::LowLevel::HttpRequest::GetServer() const
 {
 	return _server;
 }

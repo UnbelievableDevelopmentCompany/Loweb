@@ -11,14 +11,16 @@ namespace Loweb::Models
 {
 	class Model
 	{
-	/*public:
+	public:
 		EXPORTDLL Model();
 		EXPORTDLL void SetTableName(const QString& tableName);
 		EXPORTDLL QString GetTableName();
-		void AddData(DataTypes::Base* data);
+		EXPORTDLL void AddData(DataTypes::Base* data);
+
+		static inline QString _tableName = "";
+		static inline QList<DataTypes::Base*> _data = {};
+
 	private:
-		static QString _tableName;
-		static QList<DataTypes::Base*> _data;
-		QList<QVariant> _values;*/
+		QList<QVariant> _values;
 	};
 }

@@ -23,13 +23,10 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL Server(QObject* parent = nullptr);
 		EXPORTDLL virtual ~Server();
 
-		EXPORTDLL void SetConfig(Loweb::Config* config);
-		EXPORTDLL Config* GetConfig();
-
-		EXPORTDLL void SetHostAddress(const QHostAddress& hostAddress);
-		EXPORTDLL void SetHostPort(const int& port);
 		EXPORTDLL void SetStaticPath(const QString& path);
+		EXPORTDLL void SetConfig(Config* config);
 
+		EXPORTDLL Config* GetConfig();
 		EXPORTDLL Session* GetSession(const QString& ipAddress);
 
 		EXPORTDLL void AddView(const QString& path, Views::View* view);
@@ -37,21 +34,30 @@ namespace Loweb::Utils::LowLevel
 		EXPORTDLL void AddStaticFile(const QString& httpPath, const QString& pathToFile);
 		EXPORTDLL void AddApplication(const QString& path, Apps::Application* app);
 
-		EXPORTDLL void StartServer();
+		EXPORTDLL void Run();
 
 	private slots:
 		void SlotNewConnection();
 		void SlotReadClient();
 
 	private:
-		void UpdateStaticFiles(const QString& path);
+		void StartServer();
+		void UpdateStaticFilesByPath(const QString& path);
+		void UpdateStaticFiles();
 		Views::View* CheckPathToAppsView(const QString& path, Apps::Application* app, const QString& appUrl);
+		Session* CreateNewSessionWithCSRFToken(const QString& ip);
+		void UpdateSession(Session* session);
+		void ProccessSession(QTcpSocket* socket);
+		void InitializeDatabase();
+		bool CheckCSRFAttack(const HttpRequest& httpRequest, Session* session);
+		QString ProccessRequest(HttpRequest& httpRequest);
+
 	private:
 		QTcpServer* server;
 
-		QMap<QString, Views::View*> _views;
+		QList<Views::View*> _views;
 		QMap<QString, QString> _staticFiles;
-		QMap<QString, Apps::Application*> _apps;
+		QList<Apps::Application*> _apps;
 		
 		QList<Session*> _sessions;
 

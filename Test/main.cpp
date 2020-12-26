@@ -53,9 +53,10 @@ public:
 
         AddApplication("hello/", new MyApp);
 
-        server.StartServer();
+        server.Run();
     }
 };
+
 
 int main(int argc, char* argv[])
 {

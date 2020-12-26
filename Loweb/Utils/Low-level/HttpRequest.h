@@ -20,28 +20,17 @@ namespace Loweb::Utils::LowLevel
 	class HttpRequest
 	{
 	public:
-		/// <summary>
-		/// Класс, описывающий запрос клиента на сервер.
-		/// Он умеет обрабатывать запрос, чтобы все данные получать удобными методами
-		/// </summary>
-		/// <param name="httpRequest">Сам запрос в виде строки</param>
-		/// <param name="session">Текущая сессия, чтобы можно было манипулировать данными сессии откуда угодно</param>
-		/// <param name="isProccess"></param>
+
 		EXPORTDLL HttpRequest(const QString& httpRequest, Session* session, Server* server, bool isProccess = true);
 
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		EXPORTDLL QString GetPath();
-		EXPORTDLL QString GetMethod();
-		EXPORTDLL QString GetVariable(const QString& varname);
-		EXPORTDLL QString GetPost(const QString& name);
-		EXPORTDLL QString GetGet(const QString& name);
-		EXPORTDLL QString GetCookie(const QString& name);
-		EXPORTDLL Session* GetSession();
-		EXPORTDLL Server* GetServer();
+		EXPORTDLL QString GetPath() const;
+		EXPORTDLL QString GetMethod() const;
+		EXPORTDLL QString GetVariable(const QString& varname) const;
+		EXPORTDLL QString GetPost(const QString& name) const;
+		EXPORTDLL QString GetGet(const QString& name) const;
+		EXPORTDLL QString GetCookie(const QString& name) const;
+		EXPORTDLL Session* GetSession() const;
+		EXPORTDLL Server* GetServer() const;
 
 		EXPORTDLL void Proccess();
 	private:

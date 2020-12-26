@@ -57,6 +57,9 @@
     <Filter Include="Source Files\Models\DataTypes">
       <UniqueIdentifier>{e04cb3ce-bef2-43ed-a8dd-7d5d7ff849c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models\Admin">
+      <UniqueIdentifier>{2a90456e-8720-4716-9e41-618cfe55ef6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\render.cpp">
@@ -98,6 +101,9 @@
     <ClCompile Include="Models\DataTypes\Base.cpp">
       <Filter>Source Files\Models\DataTypes</Filter>
     </ClCompile>
+    <ClCompile Include="Models\Admin\ModelAdmin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\render.h">
@@ -138,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="Models\DataTypes\Base.h">
       <Filter>Header Files\Models\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Admin\ModelAdmin.h">
+      <Filter>Header Files\Models\Admin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

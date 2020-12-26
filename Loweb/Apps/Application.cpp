@@ -10,8 +10,6 @@ Loweb::Apps::Application::Application(Application* parentApp) : _parentApp(paren
 
 Loweb::Apps::Application::~Application()
 {
-	// При удалении объекта application будут удалены его views и apps.
-	// Объект удаляется при остановке сервера.
 	for (auto& item : _views)
 	{
 		if(item != nullptr)
@@ -27,15 +25,13 @@ Loweb::Apps::Application::~Application()
 
 void Loweb::Apps::Application::AddView(const QString& path, Views::View* view)
 {
-	// При добавлении view в приложение надо задать ему его родителя, то есть this
 	view->SetParentApp(this);
-
-	_views[path] = view;
+	view->SetAbsolutePath(path);
+	_views.push_back(view);
 }
 
 void Loweb::Apps::Application::AddApplication(const QString& path, Application* app)
 {
-	// При добавлении приложения в приложение надо задать ему его родителя, то есть this
 	app->SetParentApp(this);
 
 	_apps[path] = app;
@@ -63,4 +59,19 @@ QMap<QString, Loweb::Apps::Application*>& Loweb::Apps::Application::GetApplicati
 void Loweb::Apps::Application::SetParentApp(Application* parentApp)
 {
 	_parentApp = parentApp;
+}
+
+void Loweb::Apps::Application::SetAbsolutePath(const QString& absolutePath)
+{
+	_absolutePath = absolutePath;
+}
+
+QString Loweb::Apps::Application::GetAbsolutePath()
+{
+	return _absolutePath;
+}
+
+Loweb::Apps::Application* Loweb::Apps::Application::GetParentApp()
+{
+	return _parentApp;
 }

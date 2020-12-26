@@ -13,18 +13,7 @@ Loweb::Utils::LowLevel::Server::Server(QObject* parent) : QObject(parent)
 void Loweb::Utils::LowLevel::Server::SlotNewConnection()
 {
 	QTcpSocket* socket = server->nextPendingConnection();
-
-	Session* session = GetSession(socket->peerAddress().toString());
-	if (session == nullptr)
-	{
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {_config->nameCSRFToken, generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
-	}
-	else if (session->isExpiration())
-	{
-		_sessions.removeOne(session);
-		_sessions.push_back(new Session(socket->peerAddress().toString(), { {_config->nameCSRFToken, generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15*60)));
-	}
-
+	ProccessSession(socket);
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
 }
 
@@ -59,31 +48,21 @@ void Loweb::Utils::LowLevel::Server::SetConfig(Loweb::Config* config)
 	_config = config;
 }
 
-EXPORTDLL Loweb::Config* Loweb::Utils::LowLevel::Server::GetConfig()
+Loweb::Config* Loweb::Utils::LowLevel::Server::GetConfig()
 {
 	return _config;
 }
 
-void Loweb::Utils::LowLevel::Server::SetHostAddress(const QHostAddress& hostAddress)
-{
-	_config->hostAddress = hostAddress;
-	_staticFiles.clear();
-}
-
-
-void Loweb::Utils::LowLevel::Server::SetHostPort(const int& port)
-{
-	_config->hostPort = port;
-}
-
 void Loweb::Utils::LowLevel::Server::SetStaticPath(const QString& path)
 {
+	_staticFiles.clear();
 	_config->staticPath = path;
-	UpdateStaticFiles(_config->staticPath);
+	UpdateStaticFiles();
 }
 
 Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::Server::GetSession(const QString& ipAddress)
 {
+	// Search session by ip
 	auto session = std::find_if(_sessions.begin(), _sessions.end(), [&](Session* a) {
 		return a->GetIp() == ipAddress;
 	});
@@ -96,7 +75,8 @@ Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::Server::GetSession(cons
 void Loweb::Utils::LowLevel::Server::AddView(const QString& path, Views::View* view)
 {
 	view->SetParentApp(nullptr);
-	_views[path] = view;
+	view->SetAbsolutePath(path);
+	_views.push_back(view);
 }
 
 void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, const QFile& file)
@@ -112,27 +92,19 @@ void Loweb::Utils::LowLevel::Server::AddStaticFile(const QString& httpPath, cons
 void Loweb::Utils::LowLevel::Server::AddApplication(const QString& path, Apps::Application* app)
 {
 	app->SetParentApp(nullptr);
-
 	_apps[path] = app;
 }
 
+void Loweb::Utils::LowLevel::Server::Run()
+{
+	InitializeDatabase();
+	UpdateStaticFiles();
+	StartServer();
+}
 
 
 void Loweb::Utils::LowLevel::Server::StartServer()
 {
-	// database settings
-	_database = QSqlDatabase::addDatabase(_config->dbms);
-	_database.setDatabaseName(_config->dbName);
-
-	if (!_database.open())
-	{
-		qout << "Error open database!\n" << _database.lastError().text();
-		exit(0);
-	}
-
-
-	// Start server
-	UpdateStaticFiles(_config->staticPath);
 	if (!server->listen(_config->hostAddress, _config->hostPort))
 	{
 		qout << "Error start server!\n" << server->errorString() << "\n";
@@ -142,10 +114,12 @@ void Loweb::Utils::LowLevel::Server::StartServer()
 }
 
 
-
 void Loweb::Utils::LowLevel::Server::SlotReadClient()
 {
 	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
+
+	QTextStream os(socket);
+	os.setCodec("UTF8");
 
 	QString request = socket->readAll();
 	qout << request << "\n";
@@ -158,89 +132,13 @@ void Loweb::Utils::LowLevel::Server::SlotReadClient()
 		exit(0);
 	}
 
-	HttpRequest hrr(request, session, this);
-	QString path = hrr.GetPath();
+	HttpRequest httpRequest(request, session, this);
 
-	QTextStream os(socket);
-	os.setCodec("UTF8");
-	QString response;
-
-
-	//! CSRF-проверка
-	if (hrr.GetMethod() == "POST")
-	{
-		QString tokenFromClient = hrr.GetPost(_config->nameCSRFToken);
-
-		QString tokenFromServer = session->GetData(_config->nameCSRFToken);
-
-		if (tokenFromClient != tokenFromServer)
-		{
-			// Значит происходит csrf-атака!
-			qout << "CSRF-атака!\n";
-			response = HttpResponse(u8"CSRF-атака, запрос не был обработан!").GenerateResponse();
-			os << response;
-			socket->close();
-			return;
-		}
-	}
-
-	//! Проверка на маршруты уровня проекта
-	if (_views.contains(path))
-	{
-		response = _views[path]->Response(hrr).GenerateResponse();
-
-		os << response;
-		socket->close();
-		return;
-	}
-
-	//! Проверка на маршруты уровня приложений
-	for (auto app = _apps.keyValueBegin(); app != _apps.keyValueEnd(); ++app)
-	{
-		Views::View* view = CheckPathToAppsView(path, app.base().value(), app.base().key());
-		if (view != nullptr)
-		{
-			response = view->Response(hrr).GenerateResponse();
-			os << response;
-			socket->close();
-			return;
-		}
-	}
-
-	//! Проверка на получения статических файлов
-	QString staticFileName = path.mid(1, path.size() - (path.endsWith("/") ? 2 : 1));
-	if (_staticFiles.contains(staticFileName))
-	{
-		if (QFileInfo(staticFileName).suffix() == "css")
-		{
-			QFile staticFile(_staticFiles[staticFileName]);
-			staticFile.open(QIODevice::ReadOnly);
-			response = HttpResponse(staticFile.readAll()).SetContentType("text/css").GenerateResponse();
-			staticFile.close();
-
-			os << response;
-			socket->close();
-			return;
-		}
-		else if (QFileInfo(staticFileName).suffix() == "js")
-		{
-			QFile staticFile(_staticFiles[staticFileName]);
-			staticFile.open(QIODevice::ReadOnly);
-			response = HttpResponse(staticFile.readAll()).SetContentType("text/javascript").GenerateResponse();
-			staticFile.close();
-
-			os << response;
-			socket->close();
-			return;
-		}
-	}
-
-	response = HttpResponse("Error 404!", 404, "Error").GenerateResponse();
-	os << response;
+	os << ProccessRequest(httpRequest);
 	socket->close();
 }
 
-void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
+void Loweb::Utils::LowLevel::Server::UpdateStaticFilesByPath(const QString& path)
 {
 	QDir staticDir(path);
 	staticDir.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
@@ -251,7 +149,7 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 		{
 			if (item.isDir())
 			{
-				UpdateStaticFiles(path + "/" + item.fileName());
+				UpdateStaticFilesByPath(path + "/" + item.fileName());
 			}
 			else if (item.isFile())
 			{
@@ -259,6 +157,11 @@ void Loweb::Utils::LowLevel::Server::UpdateStaticFiles(const QString& path)
 			}
 		}
 	}
+}
+
+void Loweb::Utils::LowLevel::Server::UpdateStaticFiles()
+{
+	UpdateStaticFilesByPath(_config->staticPath);
 }
 
 Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QString& path, Apps::Application* app, const QString& appUrl)
@@ -280,4 +183,109 @@ Loweb::Views::View* Loweb::Utils::LowLevel::Server::CheckPathToAppsView(const QS
 		}
 	}
 	return nullptr;
+}
+
+Loweb::Utils::LowLevel::Session* Loweb::Utils::LowLevel::Server::CreateNewSessionWithCSRFToken(const QString& ip)
+{
+	return new Session(ip, { {_config->nameCSRFToken, generateRandomCSRFToken(40)} }, QDateTime::currentDateTime().addSecs(15 * 60));
+}
+
+void Loweb::Utils::LowLevel::Server::UpdateSession(Loweb::Utils::LowLevel::Session* session)
+{
+	_sessions.removeOne(session);
+	_sessions.push_back(CreateNewSessionWithCSRFToken(session->GetIp()));
+	delete session;
+}
+
+void Loweb::Utils::LowLevel::Server::ProccessSession(QTcpSocket* socket)
+{
+	Session* session = GetSession(socket->peerAddress().toString());
+	if (session == nullptr)
+	{
+		_sessions.push_back(CreateNewSessionWithCSRFToken(socket->peerAddress().toString()));
+	}
+	else if (session->isExpiration())
+	{
+		UpdateSession(session);
+	}
+}
+
+void Loweb::Utils::LowLevel::Server::InitializeDatabase()
+{
+	_database = QSqlDatabase::addDatabase(_config->dbms);
+	_database.setDatabaseName(_config->dbName);
+
+	if (!_database.open())
+	{
+		qout << "Error open database!\n" << _database.lastError().text();
+		exit(0);
+	}
+}
+
+bool Loweb::Utils::LowLevel::Server::CheckCSRFAttack(const Loweb::Utils::LowLevel::HttpRequest& httpRequest, Session* session)
+{
+	if (httpRequest.GetMethod() == "POST")
+	{
+		QString tokenFromClient = httpRequest.GetPost(_config->nameCSRFToken);
+		QString tokenFromServer = session->GetData(_config->nameCSRFToken);
+		return tokenFromClient != tokenFromServer;
+	}
+	return false;
+}
+
+QString Loweb::Utils::LowLevel::Server::ProccessRequest(HttpRequest& httpRequest)
+{
+	Session* session = httpRequest.GetSession();
+	QString path = httpRequest.GetPath();
+
+	if (CheckCSRFAttack(httpRequest, session))
+	{
+		qout << "CSRF-атака!\n";
+		return HttpResponse(u8"CSRF-атака, запрос не был обработан!").GenerateResponse();
+	}
+
+	//! Проверка на маршруты уровня проекта
+	auto currentViewIterator = std::find_if(_views.begin(), _views.end(), [&](Views::View* view) {
+		
+	});
+	if (_views.contains(path))
+	{
+		return _views[httpRequest.GetPath()]->Response(httpRequest).GenerateResponse();
+	}
+
+	//! Проверка на маршруты уровня приложений
+	for (auto app = _apps.keyValueBegin(); app != _apps.keyValueEnd(); ++app)
+	{
+		Views::View* view = CheckPathToAppsView(path, app.base().value(), app.base().key());
+		if (view != nullptr)
+		{
+			os << view->Response(hrr).GenerateResponse();
+			socket->close();
+			return;
+		}
+	}
+
+	//! Проверка на получения статических файлов
+	QString staticFileName = path.mid(1, path.size() - (path.endsWith("/") ? 2 : 1));
+	if (_staticFiles.contains(staticFileName))
+	{
+		if (QFileInfo(staticFileName).suffix() == "css")
+		{
+			QFile staticFile(_staticFiles[staticFileName]);
+			staticFile.open(QIODevice::ReadOnly);
+			staticFile.close();
+			os << HttpResponse(staticFile.readAll()).SetContentType("text/css").GenerateResponse();
+			socket->close();
+			return;
+		}
+		else if (QFileInfo(staticFileName).suffix() == "js")
+		{
+			QFile staticFile(_staticFiles[staticFileName]);
+			staticFile.open(QIODevice::ReadOnly);
+			staticFile.close();
+			os << HttpResponse(staticFile.readAll()).SetContentType("text/javascript").GenerateResponse();
+			socket->close();
+			return;
+		}
+	}
 }

@@ -43,3 +43,8 @@ void Loweb::Views::View::SetParentApp(Apps::Application* app)
 {
 	_parentApp = app;
 }
+
+void Loweb::Views::View::SetAbsolutePath(const QString& absolutePath)
+{
+	_absolutePath = absolutePath;
+}

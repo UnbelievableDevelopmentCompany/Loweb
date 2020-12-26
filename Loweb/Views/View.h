@@ -19,16 +19,16 @@ namespace Loweb::Views
 		EXPORTDLL View();
 
 		EXPORTDLL virtual Utils::LowLevel::HttpResponse Response(Utils::LowLevel::HttpRequest& request);
-
 		EXPORTDLL virtual Utils::LowLevel::HttpResponse Get(Utils::LowLevel::HttpRequest& request);
-
 		EXPORTDLL virtual Utils::LowLevel::HttpResponse Post(Utils::LowLevel::HttpRequest& request);
 
 		EXPORTDLL void SetParentApp(Loweb::Apps::Application* parentApp);
+		EXPORTDLL void SetAbsolutePath(const QString& absolutePath);
 	protected:
 		QString _response;
 
 	private:
 		Loweb::Apps::Application* _parentApp;
+		QString _absolutePath;
 	};
 }

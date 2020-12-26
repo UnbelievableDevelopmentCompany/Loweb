@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="Apps\Application.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Models\Admin\ModelAdmin.cpp" />
     <ClCompile Include="Models\DataTypes\Base.cpp" />
     <ClCompile Include="Models\Model.cpp" />
     <ClCompile Include="Project.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="Apps\Application.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="dll\ExportDLL.h" />
+    <ClInclude Include="Models\Admin\ModelAdmin.h" />
     <ClInclude Include="Models\DataTypes\Base.h" />
     <ClInclude Include="Models\Model.h" />
     <ClInclude Include="Project.h" />
